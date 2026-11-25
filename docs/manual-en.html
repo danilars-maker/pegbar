@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pegbar User Guide — frame-by-frame animation in Photoshop</title>
+<meta name="description" content="Pegbar by Coffee Cat user guide: install, timeline, exposure, onion skin, flip, pivot, Shift & Trace, groups, PNG/GIF/MP4 export, shortcuts and troubleshooting.">
+<style>
+  :root {
+    --cream: #fbf6ee;
+    --paper: #ffffff;
+    --coffee: #3b2a20;
+    --coffee-2: #6b4f3f;
+    --orange: #ff8c3c;
+    --orange-dark: #e2711f;
+    --ink: #2b2b2b;
+    --muted: #7a6d64;
+    --line: #eadfce;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; color: var(--ink); background: var(--cream); line-height: 1.6; }
+  a { color: var(--orange-dark); }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  header.top { padding: 18px 0; border-bottom: 1px solid var(--line); background: var(--cream); position: sticky; top: 0; z-index: 10; }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { font-weight: 700; color: var(--coffee); text-decoration: none; }
+  .brand span { color: var(--orange-dark); }
+  nav a { margin-left: 18px; color: var(--coffee-2); text-decoration: none; font-size: 15px; }
+  nav a:hover { color: var(--orange-dark); }
+
+  .hero { padding-top: 34px; padding-bottom: 10px; }
+  .pill { display: inline-block; background: #fff1e4; color: var(--orange-dark); border: 1px solid #ffd6b5; border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 600; }
+  h1 { font-size: clamp(30px, 4.5vw, 46px); line-height: 1.1; margin: 14px 0 10px; color: var(--coffee); }
+  .lead { font-size: 18px; color: var(--coffee-2); max-width: 760px; margin: 0 0 18px; }
+  .shot img { width: 100%; border-radius: 12px; box-shadow: 0 14px 40px rgba(59,42,32,.22); display: block; }
+  .caption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+  .layout { display: grid; grid-template-columns: 240px 1fr; gap: 36px; padding: 30px 0 60px; }
+  aside.toc { position: sticky; top: 84px; align-self: start; max-height: calc(100vh - 100px); overflow: auto; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  aside.toc b { color: var(--coffee); display: block; margin-bottom: 6px; }
+  aside.toc a { display: block; text-decoration: none; color: var(--coffee-2); font-size: 14px; padding: 3px 0; }
+  aside.toc a:hover { color: var(--orange-dark); }
+
+  section { padding: 6px 0 22px; border-bottom: 1px dashed var(--line); margin-bottom: 22px; }
+  section:last-child { border-bottom: none; }
+  h2 { font-size: 26px; color: var(--coffee); margin: 6px 0 10px; scroll-margin-top: 90px; }
+  h3 { font-size: 18px; color: var(--coffee); margin: 18px 0 6px; }
+  p { margin: 6px 0 10px; }
+  ol, ul { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  code, kbd { background: #f3ebdf; padding: 1px 6px; border-radius: 5px; font-size: 14px; }
+  kbd { border: 1px solid #e0d3c0; border-bottom-width: 2px; font-family: inherit; }
+
+  .ic { width: 22px; height: 22px; vertical-align: -5px; background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 2px; margin-right: 2px; }
+  table { width: 100%; border-collapse: collapse; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 8px 0 14px; font-size: 15px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: #f6eee2; color: var(--coffee); font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  td:first-child { white-space: nowrap; }
+
+  .tip, .warn { border-radius: 12px; padding: 12px 16px; margin: 10px 0 14px; font-size: 15px; }
+  .tip { background: #fff7ec; border: 1px solid #ffd9b0; }
+  .warn { background: #fdeeee; border: 1px solid #f3c4c4; }
+  .tip b, .warn b { color: var(--coffee); }
+
+  .cta { background: var(--coffee); color: #f7efe6; border-radius: 16px; padding: 24px 26px; display: flex; gap: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .cta p { margin: 0; color: #e8dccf; max-width: 560px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 10px; font-weight: 700; text-decoration: none; }
+  .btn.coffee { background: #ffdd00; color: #000; }
+  .btn.primary { background: var(--coffee); color: #fff; }
+
+  .langs { margin-left: 18px; font-size: 14px; color: var(--muted); }
+  .langs a { margin-left: 0; }
+  .langs b { color: var(--orange-dark); }
+  .langline { font-size: 14px; color: var(--muted); margin: 10px 0 0; }
+  footer { padding: 26px 0 46px; color: var(--muted); font-size: 14px; text-align: center; border-top: 1px solid var(--line); }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    aside.toc { position: static; max-height: none; }
+    nav { display: none; }
+    td:first-child { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Pegbar <span>by Coffee Cat</span></a>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="#install">Install</a>
+      <a href="#shortcuts">Shortcuts</a>
+      <a href="#troubleshooting">Help</a>
+      <span class="langs"><a href="manual.html">PT</a> · <b>EN</b> · <a href="manual-es.html">ES</a></span>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <span class="pill">User guide · Version 1.0</span>
+  <p class="langline">Leia em <a href="manual.html">Português</a> · Léelo en <a href="manual-es.html">Español</a></p>
+  <h1>Pegbar User Guide</h1>
+  <p class="lead">Everything Pegbar does, step by step: from the first sheet to exporting your animation. Hover over any icon in the panel and the tool name appears; here you'll find the same icon with the full explanation.</p>
+  <div class="shot"><img src="img/pegbar-panel.png" alt="The Pegbar panel in Photoshop, with a two-group timeline and the pivot tools"></div>
+  <p class="caption">The Pegbar panel: header, main bar, onion skin, tool tabs, flip and the timeline with one row per group.</p>
+</div>
+
+<div class="wrap layout">
+  <aside class="toc">
+    <b>In this guide</b>
+    <a href="#install">1. Install</a>
+    <a href="#start">2. Getting started</a>
+    <a href="#panel">3. The panel</a>
+    <a href="#timeline">4. Timeline and frames</a>
+    <a href="#exposure">5. Exposure and cut</a>
+    <a href="#view">6. Play, flip and onion skin</a>
+    <a href="#pivot">7. Pivot and mirror</a>
+    <a href="#keys">8. Keys, Shift &amp; Trace and cycles</a>
+    <a href="#groups">9. Groups and light table</a>
+    <a href="#guides">10. Guides and timing chart</a>
+    <a href="#export">11. Export (PNG, GIF, MP4)</a>
+    <a href="#shortcuts">12. Shortcuts</a>
+    <a href="#languages">13. Languages and "About"</a>
+    <a href="#troubleshooting">14. Troubleshooting</a>
+  </aside>
+
+  <main>
+
+    <section id="install">
+      <h2>1. Install</h2>
+      <ol>
+        <li>Download <a href="Pegbar-1.0.1.ccx" download><code>Pegbar-1.0.1.ccx</code></a> (or from the <a href="index.html">Pegbar page</a>).</li>
+        <li>Close Photoshop and double-click the <code>.ccx</code>. Creative Cloud installs it and warns that the plugin is not from the Marketplace: just confirm.</li>
+        <li>Open Photoshop and go to <b>Plugins &gt; Pegbar by Coffee Cat &gt; Pegbar</b>. You can dock the panel under the canvas, like a timeline.</li>
+      </ol>
+      <p>Requirements: Photoshop 2025 (version 26) or newer, on Windows or macOS.</p>
+      <div class="tip"><b>To update:</b> double-click the new version's <code>.ccx</code>; it replaces the previous one. Your files don't change.</div>
+      <div class="tip"><b>Gray icon in Creative Cloud?</b> That's normal for plugins installed from a file. Inside Photoshop the sheet icon shows up normally.</div>
+    </section>
+
+    <section id="start">
+      <h2>2. Getting started</h2>
+      <h3>How Pegbar stores your animation</h3>
+      <ul>
+        <li>An animation is a <b>layer group whose name starts with <code>[ANIM]</code></b>.</li>
+        <li><b>Each layer inside the group is one drawing</b> (one sheet). The bottom layer is frame 1.</li>
+        <li>The <b>exposure</b> lives in the layer name: <code>F003 [x2]</code> is drawing 3 on 2s.</li>
+        <li>Key marks go at the end of the name: <code>F003 [x2] {K}</code>.</li>
+      </ul>
+      <p>That's why your file opens normally even without the plugin: they're ordinary Photoshop layers.</p>
+      <h3>Your first animation</h3>
+      <ol>
+        <li>Click <img class="ic" src="img/icons/groupAdd.png" alt=""> <b>New animation group</b>. The panel asks for a name (e.g. "Bouncing ball").</li>
+        <li>Draw on frame 1 with Photoshop's brush.</li>
+        <li>Click <img class="ic" src="img/icons/new.png" alt=""> <b>New frame</b> (or press <kbd>N</kbd>) to get a new sheet. The onion skin shows the previous drawing in red.</li>
+        <li>Repeat, then click <img class="ic" src="img/icons/play.png" alt=""> <b>Play</b> to watch the animation.</li>
+      </ol>
+      <div class="tip"><b>Tip:</b> keep the paper or background <b>outside</b> the <code>[ANIM]</code> group and draw on transparent layers. That way the onion skin color tints only the lines.</div>
+      <h3>I already have drawings on layers</h3>
+      <p>Select the layers in the Layers panel (or a group) and click <img class="ic" src="img/icons/useSel.png" alt=""> <b>Use the selected layers as an animation</b>. They become frames, from bottom to top.</p>
+    </section>
+
+    <section id="panel">
+      <h2>3. The panel</h2>
+      <table>
+        <tr><th>Part</th><th>What's in it</th></tr>
+        <tr><td>Header</td><td>The group you're editing, group color, rename, zoom to drawing, all rows, timeline zoom, refresh, tools, "About" and language.</td></tr>
+        <tr><td>Main bar</td><td>Navigation and play, fps and repeat mode, undo/redo, new, duplicate, delete, move, cut tool, cut/copy/paste, exposure and labels.</td></tr>
+        <tr><td>Onion skin</td><td>On/off, how many drawings before and after, colors, opacity, tint and fade.</td></tr>
+        <tr><td>Tool tabs</td><td>Pivot &amp; mirror · Keys &amp; cycles · Groups · Guides · Export. The <img class="ic" src="img/icons/tools.png" alt=""> button shows or hides the tabs.</td></tr>
+        <tr><td>Flip</td><td>Flip buttons and the orange drag bar.</td></tr>
+        <tr><td>Timeline</td><td>One row per group, a time ruler and thumbnails of the drawings.</td></tr>
+      </table>
+      <p>Rest the mouse on any icon and a label with its name and function appears. The same description shows in the panel's bottom bar.</p>
+    </section>
+
+    <section id="timeline">
+      <h2>4. Timeline and frames</h2>
+      <h3>Navigate</h3>
+      <p><img class="ic" src="img/icons/first.png" alt=""> first, <img class="ic" src="img/icons/prev.png" alt=""> previous, <img class="ic" src="img/icons/next.png" alt=""> next, <img class="ic" src="img/icons/last.png" alt=""> last. Or click a thumbnail in the timeline.</p>
+      <h3>Create, duplicate, delete, move</h3>
+      <table>
+        <tr><th>Button</th><th>What it does</th></tr>
+        <tr><td><img class="ic" src="img/icons/new.png" alt=""> New frame</td><td>A new sheet right after the current frame, with the default exposure.</td></tr>
+        <tr><td><img class="ic" src="img/icons/duplicate.png" alt=""> Duplicate</td><td>A copy of the current frame right after it.</td></tr>
+        <tr><td><img class="ic" src="img/icons/delete.png" alt=""> Delete</td><td>Deletes the selected frames (or the current one). Ctrl+Z undoes it.</td></tr>
+        <tr><td><img class="ic" src="img/icons/moveL.png" alt=""> <img class="ic" src="img/icons/moveR.png" alt=""> Move</td><td>Moves the frame (or the selected ones) in the timeline.</td></tr>
+        <tr><td><img class="ic" src="img/icons/cut.png" alt=""> <img class="ic" src="img/icons/copy.png" alt=""> <img class="ic" src="img/icons/paste.png" alt=""></td><td>Cut, copy and paste frames. Paste goes after the current frame.</td></tr>
+        <tr><td><img class="ic" src="img/icons/undo.png" alt=""> <img class="ic" src="img/icons/redo.png" alt=""></td><td>Undo and redo: one step in Photoshop's History.</td></tr>
+        <tr><td><img class="ic" src="img/icons/renumber.png" alt=""> Renumber</td><td>Renames the frames in order: F001, F002…</td></tr>
+      </table>
+      <h3>Select several</h3>
+      <p><kbd>Ctrl</kbd> + click adds a frame to the selection; <kbd>Shift</kbd> + click selects a range.</p>
+      <h3>Drag drawings</h3>
+      <ul>
+        <li>Click a thumbnail and drag: a blue mark shows where it will go.</li>
+        <li>Works within the same row (reorder) and into <b>another group's</b> row.</li>
+        <li><kbd>Alt</kbd> + drag <b>copies</b> instead of moving.</li>
+        <li>Dropping on a group's name sends the drawing to the end of that row.</li>
+      </ul>
+      <h3>Color labels</h3>
+      <p>Select frames and click a color under <b>Label</b>. These are Photoshop's own layer colors, so they also show in the Layers panel. The <b>group color</b> in the header colors the group and all its frames at once.</p>
+      <h3>Thumbnails</h3>
+      <p>With <b>Zoom to drawing</b> on, thumbnails frame only the area where there is drawing in that group (the same for every frame). With it off, they show the whole page. The <img class="ic" src="img/icons/refresh.png" alt=""> button rebuilds them all.</p>
+      <p>The <img class="ic" src="img/icons/zoomOut.png" alt=""> <img class="ic" src="img/icons/zoomIn.png" alt=""> buttons and the width and height controls make the timeline bigger or smaller.</p>
+    </section>
+
+    <section id="exposure">
+      <h2>5. Exposure and cut</h2>
+      <h3>Change the exposure</h3>
+      <ul>
+        <li><img class="ic" src="img/icons/minus.png" alt=""> <img class="ic" src="img/icons/plus.png" alt=""> shorten or lengthen the exposure of the current frame (or the selected ones).</li>
+        <li>Or <b>type the number</b> in the exposure field: <code>24</code> puts the frame on x24 (up to x999).</li>
+        <li>Or <b>stretch it in the timeline</b>: hover over a cell's right edge (it turns blue) and drag sideways.</li>
+      </ul>
+      <h3>Default exposure</h3>
+      <p>In <b>default x</b>, set the exposure for new frames (e.g. 2 to animate "on 2s"). <img class="ic" src="img/icons/applyAll.png" alt=""> <b>Apply to all</b> sets that exposure on every frame, or only on the selected ones.</p>
+      <h3>Cut (razor)</h3>
+      <p>Just like in video editing. Click <img class="ic" src="img/icons/razor.png" alt=""> (or press <kbd>C</kbd>) to turn the cut tool on; a red line shows where it will cut.</p>
+      <ul>
+        <li><b>Click</b> inside an exposure to split it: a drawing on x5 cut after its 3rd frame becomes x3 + x2. The right part is selected; press <kbd>Delete</kbd> to remove it.</li>
+        <li><b>Shift + click</b> cuts and removes the rest at once: x5 becomes x3.</li>
+        <li><kbd>Esc</kbd> turns the cut tool off.</li>
+      </ul>
+    </section>
+
+    <section id="view">
+      <h2>6. Play, flip and onion skin</h2>
+      <h3>Play</h3>
+      <p><img class="ic" src="img/icons/play.png" alt=""> plays the animation <b>on the canvas itself</b>, at the chosen fps, respecting the exposure. Next to the fps, choose <b>Loop</b>, <b>Ping-pong</b> (back and forth) or <b>Once</b>. Space or Esc stop it.</p>
+      <h3>Flip</h3>
+      <table>
+        <tr><th>Button</th><th>What it does</th></tr>
+        <tr><td><img class="ic" src="img/icons/flipBefore.png" alt=""> Previous</td><td>Flips from the previous drawings up to the current one.</td></tr>
+        <tr><td><img class="ic" src="img/icons/flipAround.png" alt=""> Around</td><td>From the previous ones to the next ones, then back to the current one.</td></tr>
+        <tr><td><img class="ic" src="img/icons/flipAfter.png" alt=""> Next</td><td>From the current one to the next ones, and back.</td></tr>
+        <tr><td>Orange bar / ruler</td><td>Click and drag on the Flip bar or on the timeline's number ruler to pick a drawing.</td></tr>
+      </table>
+      <p>The number next to the buttons sets how many drawings on each side.</p>
+      <h3>Onion skin</h3>
+      <ul>
+        <li>Check <img class="ic" src="img/icons/onion.png" alt=""> <b>Onion</b> (or press <kbd>O</kbd>).</li>
+        <li><b>before / after</b>: how many drawings show on each side, and each side's color.</li>
+        <li><b>opacity</b>, <b>tint</b> (colors the lines) and <b>fade</b> (farther drawings get lighter).</li>
+        <li><img class="ic" src="img/icons/clean.png" alt=""> <b>Clear onion skin</b> removes the tint and transparency from every frame. Use it before exporting or sending the file.</li>
+      </ul>
+    </section>
+
+    <section id="pivot">
+      <h2>7. Pivot and mirror</h2>
+      <p><b>Pivot &amp; mirror</b> tab. The pivot (anchor point) is the point the object rotates, scales and mirrors around, like in Toon Boom.</p>
+      <h3>What the "object" is</h3>
+      <ul>
+        <li><b>With an active selection</b> (lasso or marquee around the drawing): the object is what's selected.</li>
+        <li><b>Without a selection</b>: the object is the whole layer selected in the Layers panel.</li>
+      </ul>
+      <h3>Set the pivot</h3>
+      <ul>
+        <li><b>9 points</b>: the little grid puts the pivot on the object's corners, edges or center.</li>
+        <li><img class="ic" src="img/icons/pivotSel.png" alt=""> <b>From selection</b>: pivot at the center of the selection. If the selection is tiny (a Lasso click), it only marks the point and disappears.</li>
+        <li><b>x / y</b>: type the position in pixels. <img class="ic" src="img/icons/pivotCenter.png" alt=""> goes back to the center.</li>
+        <li><b>guides</b> marks the pivot with two guides on the canvas.</li>
+      </ul>
+      <h3>Transform</h3>
+      <table>
+        <tr><th>Button</th><th>What it does</th></tr>
+        <tr><td><img class="ic" src="img/icons/rotL.png" alt=""> <img class="ic" src="img/icons/rotR.png" alt=""></td><td>Rotates on the pivot, by the chosen step in degrees.</td></tr>
+        <tr><td><img class="ic" src="img/icons/freeT.png" alt=""> By hand</td><td>Opens Photoshop's Ctrl+T with the reference point already on the pivot. Enter confirms.</td></tr>
+        <tr><td><img class="ic" src="img/icons/zoomOut.png" alt=""> <img class="ic" src="img/icons/zoomIn.png" alt=""></td><td>Scales down or up from the pivot, by the chosen step in %.</td></tr>
+        <tr><td><img class="ic" src="img/icons/flipH.png" alt=""> <img class="ic" src="img/icons/flipV.png" alt=""> Object</td><td>Mirrors the object horizontally or vertically, with the axis on the pivot.</td></tr>
+        <tr><td><img class="ic" src="img/icons/viewH.png" alt=""> <img class="ic" src="img/icons/viewV.png" alt=""> View</td><td>Flips the whole view (mirrored or upside down) to check the drawing. Press again to go back.</td></tr>
+        <tr><td><img class="ic" src="img/icons/symmetry.png" alt=""> Mirrored drawing</td><td>Activates the brush; click the butterfly in Photoshop's options bar and pick a symmetry. Whatever you draw on one side appears on the other.</td></tr>
+      </table>
+    </section>
+
+    <section id="keys">
+      <h2>8. Keys, Shift &amp; Trace and cycles</h2>
+      <h3>Marks</h3>
+      <p>Select frames and click <b>K</b> (key), <b>B</b> (breakdown) or <b>I</b> (inbetween). The letter shows in the timeline.</p>
+      <ul>
+        <li><b>onion: keys only</b>: the onion skin shows only keys and breakdowns.</li>
+        <li><b>pose test</b>: playback shows only keys and breakdowns, each held until the next.</li>
+      </ul>
+      <h3>Shift &amp; Trace</h3>
+      <ol>
+        <li>On an inbetween, click <img class="ic" src="img/icons/stPrev.png" alt=""> (previous drawing) or <img class="ic" src="img/icons/stNext.png" alt=""> (next).</li>
+        <li>A tinted temporary copy of that drawing appears. Move it with the Move tool (<kbd>V</kbd>), Ctrl+T, the panel arrows, or rotate/mirror it with the pivot tab.</li>
+        <li>Draw the inbetween over it and click <img class="ic" src="img/icons/check.png" alt=""> <b>Finish</b>. The copy disappears; the original drawing is untouched.</li>
+      </ol>
+      <h3>Cycles</h3>
+      <p>Repeats the selected frames (or all of them) as many times as you choose: <img class="ic" src="img/icons/loop.png" alt=""> loop, <img class="ic" src="img/icons/pingpong.png" alt=""> ping-pong (back and forth) or <img class="ic" src="img/icons/random.png" alt=""> random (great for fire, water and boils).</p>
+    </section>
+
+    <section id="groups">
+      <h2>9. Groups and light table</h2>
+      <p>Use one <code>[ANIM]</code> group per working layer: rough, clean, character A, character B, animated background…</p>
+      <ul>
+        <li>Each group is a <b>row</b> in the timeline. Click a row's name or one of its cells to edit it, at the same point in time.</li>
+        <li><img class="ic" src="img/icons/rename.png" alt=""> renames the group; the color dot next to the list shows its color.</li>
+        <li><b>Groups</b> tab &gt; <b>Sync all groups</b>: play, flip and navigation show every group at the same time.</li>
+        <li><b>Light table</b>: the other groups fade while you draw on the chosen group.</li>
+      </ul>
+    </section>
+
+    <section id="guides">
+      <h2>10. Guides and timing chart</h2>
+      <h3>Framing</h3>
+      <p><img class="ic" src="img/icons/guides.png" alt=""> Pick a format (whole document, 16:9, 9:16, 1:1 or 4:5). Guides appear for the format's border, the action safe area (93%) and the title safe area (90%).</p>
+      <h3>Timing chart</h3>
+      <p><img class="ic" src="img/icons/timing.png" alt=""> Choose how many inbetweens, the easing (even, slow in, slow out or slow in &amp; out), the direction and the size, then click <b>Draw</b>. The spacing chart is drawn on a separate <code>[GUIA]</code> layer, at the selected layer's pivot.</p>
+    </section>
+
+    <section id="export">
+      <h2>11. Export (PNG, GIF, MP4)</h2>
+      <p><b>Export</b> tab: pick the format and click <img class="ic" src="img/icons/export.png" alt=""> <b>Export…</b>, then choose the folder. The export uses the whole image (with background), without onion skin, respecting exposure and synced groups.</p>
+      <table>
+        <tr><th>Format</th><th>How it works</th></tr>
+        <tr><td>PNG sequence</td><td>One PNG per frame (<code>name_0001.png</code>…). Check <b>one image per drawing</b> to skip repeated exposures.</td></tr>
+        <tr><td>Animated GIF</td><td>Ready to share, looping, with each drawing's duration. In <b>size</b>, pick a percentage of the document (50% keeps the file light).</td></tr>
+        <tr><td>MP4 video</td><td>Pegbar exports the PNG sequence and shows the steps below.</td></tr>
+      </table>
+      <h3>Make an MP4 in Photoshop</h3>
+      <ol>
+        <li><b>File &gt; Open</b> and choose the first exported PNG (<code>…_0001.png</code>).</li>
+        <li>Check <b>Image Sequence</b>, click Open and enter the same fps.</li>
+        <li><b>File &gt; Export &gt; Render Video…</b>, format <b>H.264</b>, and click Render.</li>
+      </ol>
+      <p>You can also import the PNG sequence into editors such as Premiere, After Effects, DaVinci Resolve or CapCut.</p>
+    </section>
+
+    <section id="shortcuts">
+      <h2>12. Shortcuts</h2>
+      <h3>With the panel focused</h3>
+      <table>
+        <tr><th>Key</th><th>Action</th></tr>
+        <tr><td><kbd>←</kbd> <kbd>→</kbd> or <kbd>,</kbd> <kbd>.</kbd></td><td>Previous / next frame</td></tr>
+        <tr><td><kbd>Space</kbd></td><td>Play / Stop</td></tr>
+        <tr><td><kbd>N</kbd> / <kbd>D</kbd></td><td>New frame / duplicate</td></tr>
+        <tr><td><kbd>+</kbd> / <kbd>-</kbd></td><td>Longer / shorter exposure</td></tr>
+        <tr><td><kbd>O</kbd></td><td>Onion skin on/off</td></tr>
+        <tr><td><kbd>C</kbd></td><td>Cut tool on/off</td></tr>
+        <tr><td><kbd>Delete</kbd></td><td>Delete selected frames</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>X</kbd> / <kbd>C</kbd> / <kbd>V</kbd></td><td>Cut / copy / paste frames</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Stop playback or turn off the cut tool</td></tr>
+      </table>
+      <h3>Anywhere in Photoshop</h3>
+      <p>The main commands are under <b>Plugins &gt; Pegbar by Coffee Cat</b>: next, previous, new, duplicate, onion skin, play, exposure, flip, cut, rotate and mirror on the pivot, Shift &amp; Trace and more. To assign keyboard shortcuts, go to <b>Edit &gt; Keyboard Shortcuts &gt; Application Menus</b> and look for the <b>Plugins</b> menu.</p>
+    </section>
+
+    <section id="languages">
+      <h2>13. Languages and "About"</h2>
+      <p>In the right corner of the header, choose <b>PT</b>, <b>EN</b> or <b>ES</b>. The first time, Pegbar opens in your Photoshop's language. Buttons, descriptions, messages and the step names in Photoshop's History are translated.</p>
+      <p><img class="ic" src="img/icons/about.png" alt=""> (or the panel's menu) opens <b>About Pegbar</b>, with the version, the website and the link to support the project.</p>
+    </section>
+
+    <section id="troubleshooting">
+      <h2>14. Troubleshooting</h2>
+      <h3>Thumbnails are blank</h3>
+      <p>Make sure <b>Zoom to drawing</b> is checked and click <img class="ic" src="img/icons/refresh.png" alt=""> Refresh. If it continues, open the <b>Export</b> tab and click <b>Test thumbnails</b>: a box with the details appears. Send us a screenshot of it.</p>
+      <h3>Playback fills the History panel</h3>
+      <p>In <b>Preferences &gt; History</b>, uncheck "Make layer visibility changes undoable".</p>
+      <h3>My drawings are tinted or transparent</h3>
+      <p>That's the onion skin. Click <img class="ic" src="img/icons/clean.png" alt=""> <b>Clear onion skin</b>.</p>
+      <h3>The pivot isn't where I marked it</h3>
+      <p>Remember: with an active selection, the 9 points use the selection's bounds; without one, they use the layer. Turn on <b>guides</b> to see where the pivot is before rotating.</p>
+      <h3>One of my layer styles disappeared</h3>
+      <p>The onion skin tint uses the layer's "Color Overlay" effect. Avoid layer styles on drawing layers, or turn off <b>tint</b> in the onion skin.</p>
+      <h3>I found a bug</h3>
+      <p>Open an issue on <a href="https://github.com/danilars-maker/pegbar/issues">GitHub</a> or write to Coffee Cat Studio through the <a href="https://coffeecat.com.br">website</a>, with a screenshot of the panel and your Photoshop version.</p>
+    </section>
+
+    <div class="cta">
+      <div>
+        <h2 style="color:#fff;margin:0 0 6px">Pegbar is free ☕</h2>
+        <p>If it saves you time, a coffee helps keep it working with future Photoshop versions and fund new tools.</p>
+      </div>
+      <a class="btn coffee" href="https://buymeacoffee.com/studiocoffeecat" target="_blank" rel="noopener">☕ Buy me a coffee</a>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    Pegbar by Coffee Cat · Made by Danila Ribeiro · <a href="https://coffeecat.com.br">Coffee Cat Studio</a> · São Bernardo do Campo, Brazil<br>
+    Photoshop is a trademark of Adobe. Pegbar is an independent project.
+  </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,250 @@
+{
+  "manifestVersion": 5,
+  "id": "br.com.coffeecat.pegbar",
+  "name": "Pegbar by Coffee Cat",
+  "version": "1.0.1",
+  "main": "index.html",
+  "host": {
+    "app": "PS",
+    "minVersion": "25.0.0"
+  },
+  "requiredPermissions": {
+    "allowCodeGenerationFromStrings": false,
+    "localFileSystem": "request",
+    "launchProcess": {
+      "schemes": [
+        "https"
+      ],
+      "domains": [
+        "https://coffeecat.com.br",
+        "https://buymeacoffee.com",
+        "https://www.buymeacoffee.com"
+      ]
+    }
+  },
+  "entrypoints": [
+    {
+      "type": "panel",
+      "id": "timeline",
+      "label": {
+        "default": "Pegbar"
+      },
+      "minimumSize": {
+        "width": 320,
+        "height": 170
+      },
+      "maximumSize": {
+        "width": 6000,
+        "height": 3000
+      },
+      "preferredDockedSize": {
+        "width": 960,
+        "height": 300
+      },
+      "preferredFloatingSize": {
+        "width": 960,
+        "height": 300
+      },
+      "icons": [
+        {
+          "width": 23,
+          "height": 23,
+          "path": "icons/panel-dark.png",
+          "scale": [
+            1,
+            2
+          ],
+          "theme": [
+            "darkest",
+            "dark",
+            "medium"
+          ]
+        },
+        {
+          "width": 23,
+          "height": 23,
+          "path": "icons/panel-light.png",
+          "scale": [
+            1,
+            2
+          ],
+          "theme": [
+            "lightest",
+            "light"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "command",
+      "id": "cmdNext",
+      "label": {
+        "default": "Próximo frame"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdPrev",
+      "label": {
+        "default": "Frame anterior"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdNew",
+      "label": {
+        "default": "Novo frame"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdDuplicate",
+      "label": {
+        "default": "Duplicar frame"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdOnion",
+      "label": {
+        "default": "Ligar/desligar casca de cebola"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdPlay",
+      "label": {
+        "default": "Play / Stop"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdHoldUp",
+      "label": {
+        "default": "Aumentar exposição"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdHoldDown",
+      "label": {
+        "default": "Diminuir exposição"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdFlipObjH",
+      "label": {
+        "default": "Espelhar objeto na horizontal (no pivô)"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdFlipObjV",
+      "label": {
+        "default": "Espelhar objeto na vertical (no pivô)"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdViewFlipH",
+      "label": {
+        "default": "Ver tela espelhada (horizontal)"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdViewFlipV",
+      "label": {
+        "default": "Ver tela de cabeça para baixo"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdRotL",
+      "label": {
+        "default": "Girar no pivô (anti-horário)"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdRotR",
+      "label": {
+        "default": "Girar no pivô (horário)"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdRazor",
+      "label": {
+        "default": "Corte (dividir exposição)"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdFlipBefore",
+      "label": {
+        "default": "Flipar: anteriores até o atual"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdFlipAround",
+      "label": {
+        "default": "Flipar: ao redor do atual"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdFlipAfter",
+      "label": {
+        "default": "Flipar: atual até os seguintes"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdFreeT",
+      "label": {
+        "default": "Transformar à mão no pivô"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdMarkK",
+      "label": {
+        "default": "Marcar como chave"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdStPrev",
+      "label": {
+        "default": "Shift & Trace do desenho anterior"
+      }
+    },
+    {
+      "type": "command",
+      "id": "cmdStEnd",
+      "label": {
+        "default": "Terminar Shift & Trace"
+      }
+    }
+  ],
+  "icons": [
+    {
+      "width": 48,
+      "height": 48,
+      "path": "icons/plugin.png",
+      "scale": [
+        1,
+        2
+      ],
+      "theme": [
+        "all"
+      ],
+      "species": [
+        "pluginList"
+      ]
+    }
+  ]
+}

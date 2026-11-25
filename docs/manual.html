@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual do Pegbar — animação frame a frame no Photoshop</title>
+<meta name="description" content="Manual de uso do Pegbar by Coffee Cat: instalação, timeline, exposição, casca de cebola, flip, pivô, Shift & Trace, grupos, exportação em PNG, GIF e MP4, atalhos e solução de problemas.">
+<style>
+  :root {
+    --cream: #fbf6ee;
+    --paper: #ffffff;
+    --coffee: #3b2a20;
+    --coffee-2: #6b4f3f;
+    --orange: #ff8c3c;
+    --orange-dark: #e2711f;
+    --ink: #2b2b2b;
+    --muted: #7a6d64;
+    --line: #eadfce;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; color: var(--ink); background: var(--cream); line-height: 1.6; }
+  a { color: var(--orange-dark); }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  header.top { padding: 18px 0; border-bottom: 1px solid var(--line); background: var(--cream); position: sticky; top: 0; z-index: 10; }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { font-weight: 700; color: var(--coffee); text-decoration: none; }
+  .brand span { color: var(--orange-dark); }
+  nav a { margin-left: 18px; color: var(--coffee-2); text-decoration: none; font-size: 15px; }
+  nav a:hover { color: var(--orange-dark); }
+
+  .hero { padding-top: 34px; padding-bottom: 10px; }
+  .pill { display: inline-block; background: #fff1e4; color: var(--orange-dark); border: 1px solid #ffd6b5; border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 600; }
+  h1 { font-size: clamp(30px, 4.5vw, 46px); line-height: 1.1; margin: 14px 0 10px; color: var(--coffee); }
+  .lead { font-size: 18px; color: var(--coffee-2); max-width: 760px; margin: 0 0 18px; }
+  .shot img { width: 100%; border-radius: 12px; box-shadow: 0 14px 40px rgba(59,42,32,.22); display: block; }
+  .caption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+  .layout { display: grid; grid-template-columns: 240px 1fr; gap: 36px; padding: 30px 0 60px; }
+  aside.toc { position: sticky; top: 84px; align-self: start; max-height: calc(100vh - 100px); overflow: auto; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  aside.toc b { color: var(--coffee); display: block; margin-bottom: 6px; }
+  aside.toc a { display: block; text-decoration: none; color: var(--coffee-2); font-size: 14px; padding: 3px 0; }
+  aside.toc a:hover { color: var(--orange-dark); }
+
+  section { padding: 6px 0 22px; border-bottom: 1px dashed var(--line); margin-bottom: 22px; }
+  section:last-child { border-bottom: none; }
+  h2 { font-size: 26px; color: var(--coffee); margin: 6px 0 10px; scroll-margin-top: 90px; }
+  h3 { font-size: 18px; color: var(--coffee); margin: 18px 0 6px; }
+  p { margin: 6px 0 10px; }
+  ol, ul { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  code, kbd { background: #f3ebdf; padding: 1px 6px; border-radius: 5px; font-size: 14px; }
+  kbd { border: 1px solid #e0d3c0; border-bottom-width: 2px; font-family: inherit; }
+
+  .ic { width: 22px; height: 22px; vertical-align: -5px; background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 2px; margin-right: 2px; }
+  table { width: 100%; border-collapse: collapse; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 8px 0 14px; font-size: 15px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: #f6eee2; color: var(--coffee); font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  td:first-child { white-space: nowrap; }
+
+  .tip, .warn { border-radius: 12px; padding: 12px 16px; margin: 10px 0 14px; font-size: 15px; }
+  .tip { background: #fff7ec; border: 1px solid #ffd9b0; }
+  .warn { background: #fdeeee; border: 1px solid #f3c4c4; }
+  .tip b, .warn b { color: var(--coffee); }
+
+  .cta { background: var(--coffee); color: #f7efe6; border-radius: 16px; padding: 24px 26px; display: flex; gap: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .cta p { margin: 0; color: #e8dccf; max-width: 560px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 10px; font-weight: 700; text-decoration: none; }
+  .btn.coffee { background: #ffdd00; color: #000; }
+  .btn.primary { background: var(--coffee); color: #fff; }
+
+  .langs { margin-left: 18px; font-size: 14px; color: var(--muted); }
+  .langs a { margin-left: 0; }
+  .langs b { color: var(--orange-dark); }
+  .langline { font-size: 14px; color: var(--muted); margin: 10px 0 0; }
+  footer { padding: 26px 0 46px; color: var(--muted); font-size: 14px; text-align: center; border-top: 1px solid var(--line); }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    aside.toc { position: static; max-height: none; }
+    nav { display: none; }
+    td:first-child { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Pegbar <span>by Coffee Cat</span></a>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="#instalar">Instalar</a>
+      <a href="#atalhos">Atalhos</a>
+      <a href="#problemas">Ajuda</a>
+      <span class="langs"><b>PT</b> · <a href="manual-en.html">EN</a> · <a href="manual-es.html">ES</a></span>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <span class="pill">Manual · Versão 1.0</span>
+  <p class="langline">Read in <a href="manual-en.html">English</a> · Léelo en <a href="manual-es.html">Español</a></p>
+  <h1>Manual do Pegbar</h1>
+  <p class="lead">Tudo o que o Pegbar faz, passo a passo: da primeira folha até exportar a animação. Passe o mouse sobre qualquer ícone do painel e o nome da ferramenta aparece; aqui você encontra o mesmo ícone com a explicação completa.</p>
+  <div class="shot"><img src="img/pegbar-panel.png" alt="O painel do Pegbar no Photoshop, com a timeline de dois grupos e as ferramentas de pivô"></div>
+  <p class="caption">O painel do Pegbar: cabeçalho, barra principal, casca de cebola, abas de ferramentas, flip e a timeline com uma linha por grupo.</p>
+</div>
+
+<div class="wrap layout">
+  <aside class="toc">
+    <b>Neste manual</b>
+    <a href="#instalar">1. Instalar</a>
+    <a href="#comecar">2. Primeiros passos</a>
+    <a href="#painel">3. Conhecendo o painel</a>
+    <a href="#timeline">4. Timeline e frames</a>
+    <a href="#exposicao">5. Exposição e corte</a>
+    <a href="#ver">6. Play, flip e cebola</a>
+    <a href="#pivo">7. Pivô e espelhar</a>
+    <a href="#chaves">8. Chaves, Shift &amp; Trace e ciclos</a>
+    <a href="#grupos">9. Grupos e mesa de luz</a>
+    <a href="#guias">10. Guias e gráfico de timing</a>
+    <a href="#exportar">11. Exportar (PNG, GIF, MP4)</a>
+    <a href="#atalhos">12. Atalhos</a>
+    <a href="#idiomas">13. Idiomas e "Sobre"</a>
+    <a href="#problemas">14. Problemas comuns</a>
+  </aside>
+
+  <main>
+
+    <section id="instalar">
+      <h2>1. Instalar</h2>
+      <ol>
+        <li>Baixe o arquivo <a href="Pegbar-1.0.1.ccx" download><code>Pegbar-1.0.1.ccx</code></a> (ou pela <a href="index.html">página do Pegbar</a>).</li>
+        <li>Feche o Photoshop e dê dois cliques no <code>.ccx</code>. A Creative Cloud instala e avisa que o plugin não vem do Marketplace: é só confirmar.</li>
+        <li>Abra o Photoshop e vá em <b>Plug-ins &gt; Pegbar by Coffee Cat &gt; Pegbar</b>. O painel pode ser encaixado embaixo da área de desenho, como uma timeline.</li>
+      </ol>
+      <p>Requisitos: Photoshop 2025 (versão 26) ou mais novo, no Windows ou no Mac.</p>
+      <div class="tip"><b>Para atualizar:</b> dê dois cliques no <code>.ccx</code> da versão nova; ele substitui a anterior. Seus arquivos não mudam.</div>
+      <div class="tip"><b>O ícone aparece cinza na Creative Cloud?</b> É normal para plugins instalados por arquivo. Dentro do Photoshop o ícone da folhinha aparece normalmente.</div>
+    </section>
+
+    <section id="comecar">
+      <h2>2. Primeiros passos</h2>
+      <h3>Como o Pegbar guarda a animação</h3>
+      <ul>
+        <li>Uma animação é um <b>grupo de camadas cujo nome começa com <code>[ANIM]</code></b>.</li>
+        <li><b>Cada camada dentro do grupo é um desenho</b> (uma folha). A camada de baixo é o frame 1.</li>
+        <li>A <b>exposição</b> fica no nome da camada: <code>F003 [x2]</code> é o desenho 3 em 2.</li>
+        <li>As marcas de chave ficam no fim do nome: <code>F003 [x2] {K}</code>.</li>
+      </ul>
+      <p>Por isso o arquivo abre normalmente mesmo sem o plugin: são camadas comuns do Photoshop.</p>
+      <h3>Sua primeira animação</h3>
+      <ol>
+        <li>Clique em <img class="ic" src="img/icons/groupAdd.png" alt=""> <b>Novo grupo de animação</b>. O painel pede um nome (ex.: "Bola quicando").</li>
+        <li>Desenhe no frame 1 com o pincel do Photoshop.</li>
+        <li>Clique em <img class="ic" src="img/icons/new.png" alt=""> <b>Novo frame</b> (ou aperte <kbd>N</kbd>) para pegar uma folha nova. A casca de cebola mostra o desenho anterior em vermelho.</li>
+        <li>Repita, e clique em <img class="ic" src="img/icons/play.png" alt=""> <b>Play</b> para ver a animação.</li>
+      </ol>
+      <div class="tip"><b>Dica:</b> deixe o papel ou o cenário <b>fora</b> do grupo <code>[ANIM]</code> e desenhe em camadas transparentes. Assim a cor da cebola pinta só o traço.</div>
+      <h3>Já tenho desenhos em camadas</h3>
+      <p>Selecione as camadas no painel Camadas (ou um grupo) e clique em <img class="ic" src="img/icons/useSel.png" alt=""> <b>Usar as camadas selecionadas como animação</b>. Elas viram frames, na ordem de baixo para cima.</p>
+    </section>
+
+    <section id="painel">
+      <h2>3. Conhecendo o painel</h2>
+      <table>
+        <tr><th>Parte</th><th>O que tem</th></tr>
+        <tr><td>Cabeçalho</td><td>Grupo que você está editando, cor do grupo, renomear, zoom no desenho, todas as linhas, zoom da timeline, atualizar, ferramentas, "Sobre" e idioma.</td></tr>
+        <tr><td>Barra principal</td><td>Navegação e play, fps e modo de repetição, desfazer/refazer, novo, duplicar, apagar, mover, corte, recortar/copiar/colar, exposição e etiquetas.</td></tr>
+        <tr><td>Casca de cebola</td><td>Liga/desliga, quantos desenhos antes e depois, cores, opacidade, colorir e esmaecer.</td></tr>
+        <tr><td>Abas de ferramentas</td><td>Pivô e espelhar · Chaves e ciclos · Grupos · Guias · Exportar. O botão <img class="ic" src="img/icons/tools.png" alt=""> mostra ou esconde as abas.</td></tr>
+        <tr><td>Flip</td><td>Botões para folhear e a barra laranja de arrastar.</td></tr>
+        <tr><td>Timeline</td><td>Uma linha por grupo, régua de tempo e miniaturas dos desenhos.</td></tr>
+      </table>
+      <p>Parando o mouse sobre qualquer ícone, aparece uma etiqueta com o nome e a função. A mesma descrição aparece na barra de baixo do painel.</p>
+    </section>
+
+    <section id="timeline">
+      <h2>4. Timeline e frames</h2>
+      <h3>Navegar</h3>
+      <p><img class="ic" src="img/icons/first.png" alt=""> primeiro, <img class="ic" src="img/icons/prev.png" alt=""> anterior, <img class="ic" src="img/icons/next.png" alt=""> próximo, <img class="ic" src="img/icons/last.png" alt=""> último. Ou clique numa miniatura da timeline.</p>
+      <h3>Criar, duplicar, apagar, mover</h3>
+      <table>
+        <tr><th>Botão</th><th>O que faz</th></tr>
+        <tr><td><img class="ic" src="img/icons/new.png" alt=""> Novo frame</td><td>Folha nova logo depois do frame atual, já com a exposição padrão.</td></tr>
+        <tr><td><img class="ic" src="img/icons/duplicate.png" alt=""> Duplicar</td><td>Cópia do frame atual logo depois dele.</td></tr>
+        <tr><td><img class="ic" src="img/icons/delete.png" alt=""> Apagar</td><td>Apaga os frames selecionados (ou o atual). Ctrl+Z desfaz.</td></tr>
+        <tr><td><img class="ic" src="img/icons/moveL.png" alt=""> <img class="ic" src="img/icons/moveR.png" alt=""> Mover</td><td>Muda a posição do frame (ou dos selecionados) na timeline.</td></tr>
+        <tr><td><img class="ic" src="img/icons/cut.png" alt=""> <img class="ic" src="img/icons/copy.png" alt=""> <img class="ic" src="img/icons/paste.png" alt=""></td><td>Recortar, copiar e colar frames. Colar entra depois do frame atual.</td></tr>
+        <tr><td><img class="ic" src="img/icons/undo.png" alt=""> <img class="ic" src="img/icons/redo.png" alt=""></td><td>Desfazer e refazer: um passo no histórico do Photoshop.</td></tr>
+        <tr><td><img class="ic" src="img/icons/renumber.png" alt=""> Renumerar</td><td>Renomeia os frames em ordem: F001, F002…</td></tr>
+      </table>
+      <h3>Selecionar vários</h3>
+      <p><kbd>Ctrl</kbd> + clique adiciona um frame à seleção; <kbd>Shift</kbd> + clique seleciona um intervalo.</p>
+      <h3>Arrastar desenhos</h3>
+      <ul>
+        <li>Clique numa miniatura e arraste: uma marca azul mostra onde ela vai entrar.</li>
+        <li>Funciona na mesma linha (reordenar) e para a linha de <b>outro grupo</b>.</li>
+        <li><kbd>Alt</kbd> + arrastar <b>copia</b> em vez de mover.</li>
+        <li>Soltar em cima do nome de um grupo manda o desenho para o fim daquela linha.</li>
+      </ul>
+      <h3>Etiquetas de cor</h3>
+      <p>Selecione os frames e clique numa cor em <b>Etiqueta</b>. As cores são as do próprio Photoshop e aparecem também no painel Camadas. A <b>cor do grupo</b>, no cabeçalho, pinta o grupo e todos os frames de uma vez.</p>
+      <h3>Miniaturas</h3>
+      <p>Com <b>Zoom no desenho</b> ligado, as miniaturas enquadram só a área onde há desenho naquele grupo (igual para todos os frames). Desligado, mostram a página inteira. O botão <img class="ic" src="img/icons/refresh.png" alt=""> refaz todas.</p>
+      <p>Os botões <img class="ic" src="img/icons/zoomOut.png" alt=""> <img class="ic" src="img/icons/zoomIn.png" alt=""> e os controles de largura e altura aumentam ou diminuem a timeline.</p>
+    </section>
+
+    <section id="exposicao">
+      <h2>5. Exposição e corte</h2>
+      <h3>Mudar a exposição</h3>
+      <ul>
+        <li><img class="ic" src="img/icons/minus.png" alt=""> <img class="ic" src="img/icons/plus.png" alt=""> diminuem ou aumentam a exposição do frame atual (ou dos selecionados).</li>
+        <li>Ou <b>digite o número</b> no campo da exposição: <code>24</code> deixa o frame em x24 (até x999).</li>
+        <li>Ou <b>estique na timeline</b>: passe o mouse na borda direita de uma célula (ela fica azul) e arraste para os lados.</li>
+      </ul>
+      <h3>Exposição padrão</h3>
+      <p>Em <b>padrão x</b>, defina a exposição dos frames novos (ex.: 2 para animar "em 2"). <img class="ic" src="img/icons/applyAll.png" alt=""> <b>Aplicar em todos</b> coloca essa exposição em todos os frames, ou só nos selecionados.</p>
+      <h3>Corte (navalha)</h3>
+      <p>Como na edição de vídeo. Clique em <img class="ic" src="img/icons/razor.png" alt=""> (ou aperte <kbd>C</kbd>) para ligar o corte; uma linha vermelha mostra onde vai cortar.</p>
+      <ul>
+        <li><b>Clique</b> dentro de uma exposição para dividir: um desenho em x5 cortado depois do 3º quadro vira x3 + x2. A parte da direita fica selecionada; aperte <kbd>Delete</kbd> para tirá-la.</li>
+        <li><b>Shift + clique</b> corta e já remove o resto: x5 vira x3.</li>
+        <li><kbd>Esc</kbd> desliga o corte.</li>
+      </ul>
+    </section>
+
+    <section id="ver">
+      <h2>6. Play, flip e casca de cebola</h2>
+      <h3>Play</h3>
+      <p><img class="ic" src="img/icons/play.png" alt=""> toca a animação <b>no próprio canvas</b>, no fps escolhido, respeitando a exposição. Ao lado do fps escolha <b>Loop</b>, <b>Ping-pong</b> (vai e volta) ou <b>Uma vez</b>. Espaço ou Esc param.</p>
+      <h3>Flip (folhear)</h3>
+      <table>
+        <tr><th>Botão</th><th>O que faz</th></tr>
+        <tr><td><img class="ic" src="img/icons/flipBefore.png" alt=""> Anteriores</td><td>Folheia dos desenhos anteriores até o atual.</td></tr>
+        <tr><td><img class="ic" src="img/icons/flipAround.png" alt=""> Ao redor</td><td>Dos anteriores aos seguintes, e volta ao atual.</td></tr>
+        <tr><td><img class="ic" src="img/icons/flipAfter.png" alt=""> Seguintes</td><td>Do atual aos seguintes, e volta.</td></tr>
+        <tr><td>Barra laranja / régua</td><td>Clique e arraste na barra do Flip ou na régua de números da timeline para escolher o desenho.</td></tr>
+      </table>
+      <p>O número ao lado dos botões define quantos desenhos para cada lado.</p>
+      <h3>Casca de cebola</h3>
+      <ul>
+        <li>Marque <img class="ic" src="img/icons/onion.png" alt=""> <b>Cebola</b> (ou aperte <kbd>O</kbd>).</li>
+        <li><b>antes / depois</b>: quantos desenhos aparecem de cada lado, e a cor de cada lado.</li>
+        <li><b>opacidade</b>, <b>colorir</b> (pinta o traço) e <b>esmaecer</b> (os mais distantes ficam mais claros).</li>
+        <li><img class="ic" src="img/icons/clean.png" alt=""> <b>Limpar cebola</b> tira a cor e a transparência de todos os frames. Use antes de exportar ou mandar o arquivo.</li>
+      </ul>
+    </section>
+
+    <section id="pivo">
+      <h2>7. Pivô e espelhar</h2>
+      <p>Aba <b>Pivô e espelhar</b>. O pivô (anchor point) é o ponto em volta do qual o objeto gira, escala e espelha, como no Toon Boom.</p>
+      <h3>O que é o "objeto"</h3>
+      <ul>
+        <li><b>Com uma seleção ativa</b> (laço ou retângulo em volta do desenho): o objeto é o que está selecionado.</li>
+        <li><b>Sem seleção</b>: o objeto é a camada inteira selecionada no painel Camadas.</li>
+      </ul>
+      <h3>Definir o pivô</h3>
+      <ul>
+        <li><b>9 pontos</b>: a grade de quadradinhos coloca o pivô nos cantos, bordas ou centro do objeto.</li>
+        <li><img class="ic" src="img/icons/pivotSel.png" alt=""> <b>Da seleção</b>: pivô no centro da seleção. Se a seleção for minúscula (um clique com o Laço), ela só marca o ponto e some.</li>
+        <li><b>x / y</b>: digite a posição em pixels. <img class="ic" src="img/icons/pivotCenter.png" alt=""> volta para o centro.</li>
+        <li><b>guias</b> marca o pivô com duas guias no canvas.</li>
+      </ul>
+      <h3>Transformar</h3>
+      <table>
+        <tr><th>Botão</th><th>O que faz</th></tr>
+        <tr><td><img class="ic" src="img/icons/rotL.png" alt=""> <img class="ic" src="img/icons/rotR.png" alt=""></td><td>Gira no pivô, no passo em graus escolhido.</td></tr>
+        <tr><td><img class="ic" src="img/icons/freeT.png" alt=""> À mão</td><td>Abre o Ctrl+T do Photoshop já com o ponto de referência no pivô. Enter confirma.</td></tr>
+        <tr><td><img class="ic" src="img/icons/zoomOut.png" alt=""> <img class="ic" src="img/icons/zoomIn.png" alt=""></td><td>Diminui ou aumenta a partir do pivô, no passo em % escolhido.</td></tr>
+        <tr><td><img class="ic" src="img/icons/flipH.png" alt=""> <img class="ic" src="img/icons/flipV.png" alt=""> Objeto</td><td>Espelha o objeto na horizontal ou na vertical, com o eixo no pivô.</td></tr>
+        <tr><td><img class="ic" src="img/icons/viewH.png" alt=""> <img class="ic" src="img/icons/viewV.png" alt=""> Tela</td><td>Vira a tela inteira (espelhada ou de ponta-cabeça) para conferir o desenho. Aperte de novo para voltar.</td></tr>
+        <tr><td><img class="ic" src="img/icons/symmetry.png" alt=""> Desenhar espelhado</td><td>Ativa o pincel; clique na borboleta da barra de opções do Photoshop e escolha a simetria. O que você desenha de um lado aparece do outro.</td></tr>
+      </table>
+    </section>
+
+    <section id="chaves">
+      <h2>8. Chaves, Shift &amp; Trace e ciclos</h2>
+      <h3>Marcas</h3>
+      <p>Selecione frames e clique em <b>K</b> (chave), <b>B</b> (extremo / breakdown) ou <b>I</b> (intervalo). A letra aparece na timeline.</p>
+      <ul>
+        <li><b>cebola só chaves</b>: a casca de cebola mostra só chaves e extremos.</li>
+        <li><b>teste de poses</b>: o play mostra só chaves e extremos, cada um parado até o próximo.</li>
+      </ul>
+      <h3>Shift &amp; Trace</h3>
+      <ol>
+        <li>Num intervalo, clique em <img class="ic" src="img/icons/stPrev.png" alt=""> (desenho anterior) ou <img class="ic" src="img/icons/stNext.png" alt=""> (seguinte).</li>
+        <li>Surge uma cópia temporária colorida desse desenho. Mova com a ferramenta Mover (<kbd>V</kbd>), com Ctrl+T, com as setas do painel ou gire/espelhe com a aba do pivô.</li>
+        <li>Desenhe o intervalo por cima e clique em <img class="ic" src="img/icons/check.png" alt=""> <b>Terminar</b>. A cópia some; o desenho original não muda.</li>
+      </ol>
+      <h3>Ciclos</h3>
+      <p>Repete os frames selecionados (ou todos) quantas vezes você escolher: <img class="ic" src="img/icons/loop.png" alt=""> loop, <img class="ic" src="img/icons/pingpong.png" alt=""> ping-pong (vai e volta) ou <img class="ic" src="img/icons/random.png" alt=""> aleatório (ótimo para fogo, água e tremidas).</p>
+    </section>
+
+    <section id="grupos">
+      <h2>9. Grupos e mesa de luz</h2>
+      <p>Use um grupo <code>[ANIM]</code> para cada camada de trabalho: rough, clean, personagem A, personagem B, cenário animado…</p>
+      <ul>
+        <li>Cada grupo é uma <b>linha</b> na timeline. Clique no nome ou numa célula de outra linha para passar a editá-la, no mesmo tempo.</li>
+        <li><img class="ic" src="img/icons/rename.png" alt=""> renomeia o grupo; a bolinha de cor ao lado da lista mostra a cor dele.</li>
+        <li>Aba <b>Grupos</b> &gt; <b>Sincronizar todos os grupos</b>: play, flip e navegação mostram todos os grupos no mesmo tempo.</li>
+        <li><b>Mesa de luz</b>: os outros grupos ficam clarinhos enquanto você desenha no grupo escolhido.</li>
+      </ul>
+    </section>
+
+    <section id="guias">
+      <h2>10. Guias e gráfico de timing</h2>
+      <h3>Enquadramento</h3>
+      <p><img class="ic" src="img/icons/guides.png" alt=""> Escolha um formato (documento inteiro, 16:9, 9:16, 1:1 ou 4:5). Aparecem guias da borda do formato, da área de ação (93%) e da área de título (90%).</p>
+      <h3>Gráfico de timing</h3>
+      <p><img class="ic" src="img/icons/timing.png" alt=""> Escolha quantos intervalos, a suavização (constante, devagar no início, no fim ou nas pontas), a direção e o tamanho, e clique em <b>Desenhar</b>. A régua de espaçamento é desenhada numa camada <code>[GUIA]</code> separada, no pivô da camada selecionada.</p>
+    </section>
+
+    <section id="exportar">
+      <h2>11. Exportar (PNG, GIF, MP4)</h2>
+      <p>Aba <b>Exportar</b>: escolha o formato e clique em <img class="ic" src="img/icons/export.png" alt=""> <b>Exportar…</b>. Depois escolha a pasta. A exportação usa a imagem inteira (com fundo), sem a casca de cebola, respeitando a exposição e os grupos sincronizados.</p>
+      <table>
+        <tr><th>Formato</th><th>Como funciona</th></tr>
+        <tr><td>Sequência PNG</td><td>Um PNG por quadro (<code>nome_0001.png</code>…). Marque <b>uma imagem por desenho</b> para não repetir as exposições.</td></tr>
+        <tr><td>GIF animado</td><td>Sai pronto, em loop, com a duração de cada desenho. Em <b>tamanho</b>, escolha a porcentagem do documento (50% deixa o arquivo leve).</td></tr>
+        <tr><td>Vídeo MP4</td><td>O Pegbar exporta a sequência PNG e mostra os passos abaixo.</td></tr>
+      </table>
+      <h3>Transformar em MP4 no Photoshop</h3>
+      <ol>
+        <li><b>Arquivo &gt; Abrir</b> e escolha o primeiro PNG exportado (<code>…_0001.png</code>).</li>
+        <li>Marque <b>Sequência de imagens</b>, clique em Abrir e informe o mesmo fps.</li>
+        <li><b>Arquivo &gt; Exportar &gt; Renderizar vídeo…</b>, formato <b>H.264</b>, e clique em Renderizar.</li>
+      </ol>
+      <p>A sequência PNG também pode ser importada em editores como Premiere, After Effects, DaVinci Resolve ou CapCut.</p>
+    </section>
+
+    <section id="atalhos">
+      <h2>12. Atalhos</h2>
+      <h3>Com o painel em foco</h3>
+      <table>
+        <tr><th>Tecla</th><th>Ação</th></tr>
+        <tr><td><kbd>←</kbd> <kbd>→</kbd> ou <kbd>,</kbd> <kbd>.</kbd></td><td>Frame anterior / próximo</td></tr>
+        <tr><td><kbd>Espaço</kbd></td><td>Play / Stop</td></tr>
+        <tr><td><kbd>N</kbd> / <kbd>D</kbd></td><td>Novo frame / duplicar</td></tr>
+        <tr><td><kbd>+</kbd> / <kbd>-</kbd></td><td>Aumentar / diminuir exposição</td></tr>
+        <tr><td><kbd>O</kbd></td><td>Ligar/desligar a casca de cebola</td></tr>
+        <tr><td><kbd>C</kbd></td><td>Ligar/desligar o corte</td></tr>
+        <tr><td><kbd>Delete</kbd></td><td>Apagar frames selecionados</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>X</kbd> / <kbd>C</kbd> / <kbd>V</kbd></td><td>Recortar / copiar / colar frames</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Parar o play ou desligar o corte</td></tr>
+      </table>
+      <h3>Em qualquer lugar do Photoshop</h3>
+      <p>Os comandos principais ficam em <b>Plug-ins &gt; Pegbar by Coffee Cat</b>: próximo, anterior, novo, duplicar, cebola, play, exposição, flipar, corte, girar e espelhar no pivô, Shift &amp; Trace e outros. Para dar atalhos de teclado, vá em <b>Editar &gt; Atalhos de teclado &gt; Menus do aplicativo</b> e procure o menu <b>Plug-ins</b>.</p>
+    </section>
+
+    <section id="idiomas">
+      <h2>13. Idiomas e "Sobre"</h2>
+      <p>No canto direito do cabeçalho, escolha <b>PT</b>, <b>EN</b> ou <b>ES</b>. Na primeira vez o Pegbar abre no idioma do seu Photoshop. Botões, descrições, mensagens e os nomes no histórico do Photoshop são traduzidos.</p>
+      <p><img class="ic" src="img/icons/about.png" alt=""> (ou o menu de linhas do painel) abre o <b>Sobre o Pegbar</b>, com a versão, o site e o link para apoiar o projeto.</p>
+    </section>
+
+    <section id="problemas">
+      <h2>14. Problemas comuns</h2>
+      <h3>As miniaturas aparecem em branco</h3>
+      <p>Confira se <b>Zoom no desenho</b> está marcado e clique em <img class="ic" src="img/icons/refresh.png" alt=""> Atualizar. Se continuar, abra a aba <b>Exportar</b> e clique em <b>Testar miniaturas</b>: aparece um quadro com os detalhes. Mande um print dele para nós.</p>
+      <h3>O play enche o painel Histórico</h3>
+      <p>Em <b>Preferências &gt; Histórico</b>, desmarque "Tornar as alterações de visibilidade de camada desfazíveis".</p>
+      <h3>Os desenhos ficaram coloridos ou transparentes</h3>
+      <p>É a casca de cebola. Clique em <img class="ic" src="img/icons/clean.png" alt=""> <b>Limpar cebola</b>.</p>
+      <h3>O pivô não fica onde eu marquei</h3>
+      <p>Lembre que, com uma seleção ativa, os 9 pontos usam os limites da seleção; sem seleção, usam a camada. Ligue <b>guias</b> para ver onde o pivô está antes de girar.</p>
+      <h3>Um estilo de camada meu sumiu</h3>
+      <p>A cor da cebola usa o efeito "Sobreposição de cores" da camada. Evite estilos de camada nas camadas dos desenhos, ou desligue <b>colorir</b> na cebola.</p>
+      <h3>Encontrei um erro</h3>
+      <p>Abra uma "issue" no <a href="https://github.com/danilars-maker/pegbar/issues">GitHub</a> ou escreva para a Coffee Cat Studio pelo <a href="https://coffeecat.com.br">site</a>, com um print do painel e a versão do seu Photoshop.</p>
+    </section>
+
+    <div class="cta">
+      <div>
+        <h2 style="color:#fff;margin:0 0 6px">O Pegbar é gratuito ☕</h2>
+        <p>Se ele economiza o seu tempo, um cafezinho ajuda a mantê-lo funcionando nas próximas versões do Photoshop e a criar ferramentas novas.</p>
+      </div>
+      <a class="btn coffee" href="https://buymeacoffee.com/studiocoffeecat" target="_blank" rel="noopener">☕ Me pague um café</a>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    Pegbar by Coffee Cat · Feito por Danila Ribeiro · <a href="https://coffeecat.com.br">Coffee Cat Studio</a> · São Bernardo do Campo, Brasil<br>
+    Photoshop é marca registrada da Adobe. O Pegbar é um projeto independente.
+  </div>
+</footer>
+
+</body>
+</html>

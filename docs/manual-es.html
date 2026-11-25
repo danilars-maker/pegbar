@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual de Pegbar — animación fotograma a fotograma en Photoshop</title>
+<meta name="description" content="Manual de Pegbar by Coffee Cat: instalación, línea de tiempo, exposición, papel cebolla, hojear, pivote, Shift & Trace, grupos, exportación PNG/GIF/MP4, atajos y problemas comunes.">
+<style>
+  :root {
+    --cream: #fbf6ee;
+    --paper: #ffffff;
+    --coffee: #3b2a20;
+    --coffee-2: #6b4f3f;
+    --orange: #ff8c3c;
+    --orange-dark: #e2711f;
+    --ink: #2b2b2b;
+    --muted: #7a6d64;
+    --line: #eadfce;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; color: var(--ink); background: var(--cream); line-height: 1.6; }
+  a { color: var(--orange-dark); }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+
+  header.top { padding: 18px 0; border-bottom: 1px solid var(--line); background: var(--cream); position: sticky; top: 0; z-index: 10; }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+  .brand { font-weight: 700; color: var(--coffee); text-decoration: none; }
+  .brand span { color: var(--orange-dark); }
+  nav a { margin-left: 18px; color: var(--coffee-2); text-decoration: none; font-size: 15px; }
+  nav a:hover { color: var(--orange-dark); }
+
+  .hero { padding-top: 34px; padding-bottom: 10px; }
+  .pill { display: inline-block; background: #fff1e4; color: var(--orange-dark); border: 1px solid #ffd6b5; border-radius: 999px; padding: 4px 12px; font-size: 13px; font-weight: 600; }
+  h1 { font-size: clamp(30px, 4.5vw, 46px); line-height: 1.1; margin: 14px 0 10px; color: var(--coffee); }
+  .lead { font-size: 18px; color: var(--coffee-2); max-width: 760px; margin: 0 0 18px; }
+  .shot img { width: 100%; border-radius: 12px; box-shadow: 0 14px 40px rgba(59,42,32,.22); display: block; }
+  .caption { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+  .layout { display: grid; grid-template-columns: 240px 1fr; gap: 36px; padding: 30px 0 60px; }
+  aside.toc { position: sticky; top: 84px; align-self: start; max-height: calc(100vh - 100px); overflow: auto; background: var(--paper); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  aside.toc b { color: var(--coffee); display: block; margin-bottom: 6px; }
+  aside.toc a { display: block; text-decoration: none; color: var(--coffee-2); font-size: 14px; padding: 3px 0; }
+  aside.toc a:hover { color: var(--orange-dark); }
+
+  section { padding: 6px 0 22px; border-bottom: 1px dashed var(--line); margin-bottom: 22px; }
+  section:last-child { border-bottom: none; }
+  h2 { font-size: 26px; color: var(--coffee); margin: 6px 0 10px; scroll-margin-top: 90px; }
+  h3 { font-size: 18px; color: var(--coffee); margin: 18px 0 6px; }
+  p { margin: 6px 0 10px; }
+  ol, ul { margin: 6px 0 12px; padding-left: 22px; }
+  li { margin: 4px 0; }
+  code, kbd { background: #f3ebdf; padding: 1px 6px; border-radius: 5px; font-size: 14px; }
+  kbd { border: 1px solid #e0d3c0; border-bottom-width: 2px; font-family: inherit; }
+
+  .ic { width: 22px; height: 22px; vertical-align: -5px; background: #fff; border: 1px solid var(--line); border-radius: 5px; padding: 2px; margin-right: 2px; }
+  table { width: 100%; border-collapse: collapse; background: var(--paper); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 8px 0 14px; font-size: 15px; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { background: #f6eee2; color: var(--coffee); font-weight: 600; }
+  tr:last-child td { border-bottom: none; }
+  td:first-child { white-space: nowrap; }
+
+  .tip, .warn { border-radius: 12px; padding: 12px 16px; margin: 10px 0 14px; font-size: 15px; }
+  .tip { background: #fff7ec; border: 1px solid #ffd9b0; }
+  .warn { background: #fdeeee; border: 1px solid #f3c4c4; }
+  .tip b, .warn b { color: var(--coffee); }
+
+  .cta { background: var(--coffee); color: #f7efe6; border-radius: 16px; padding: 24px 26px; display: flex; gap: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .cta p { margin: 0; color: #e8dccf; max-width: 560px; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 10px; font-weight: 700; text-decoration: none; }
+  .btn.coffee { background: #ffdd00; color: #000; }
+  .btn.primary { background: var(--coffee); color: #fff; }
+
+  .langs { margin-left: 18px; font-size: 14px; color: var(--muted); }
+  .langs a { margin-left: 0; }
+  .langs b { color: var(--orange-dark); }
+  .langline { font-size: 14px; color: var(--muted); margin: 10px 0 0; }
+  footer { padding: 26px 0 46px; color: var(--muted); font-size: 14px; text-align: center; border-top: 1px solid var(--line); }
+
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    aside.toc { position: static; max-height: none; }
+    nav { display: none; }
+    td:first-child { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">Pegbar <span>by Coffee Cat</span></a>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="#instalar">Instalar</a>
+      <a href="#atajos">Atajos</a>
+      <a href="#problemas">Ayuda</a>
+      <span class="langs"><a href="manual.html">PT</a> · <a href="manual-en.html">EN</a> · <b>ES</b></span>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap hero">
+  <span class="pill">Manual · Versión 1.0</span>
+  <p class="langline">Leia em <a href="manual.html">Português</a> · Read in <a href="manual-en.html">English</a></p>
+  <h1>Manual de Pegbar</h1>
+  <p class="lead">Todo lo que hace Pegbar, paso a paso: desde la primera hoja hasta exportar la animación. Pasa el ratón sobre cualquier icono del panel y aparece el nombre de la herramienta; aquí encuentras el mismo icono con la explicación completa.</p>
+  <div class="shot"><img src="img/pegbar-panel.png" alt="El panel de Pegbar en Photoshop, con la línea de tiempo de dos grupos y las herramientas de pivote"></div>
+  <p class="caption">El panel de Pegbar: encabezado, barra principal, papel cebolla, pestañas de herramientas, hojear y la línea de tiempo con una fila por grupo.</p>
+</div>
+
+<div class="wrap layout">
+  <aside class="toc">
+    <b>En este manual</b>
+    <a href="#instalar">1. Instalar</a>
+    <a href="#empezar">2. Primeros pasos</a>
+    <a href="#panel">3. Conociendo el panel</a>
+    <a href="#linea">4. Línea de tiempo y fotogramas</a>
+    <a href="#exposicion">5. Exposición y corte</a>
+    <a href="#ver">6. Reproducir, hojear y cebolla</a>
+    <a href="#pivote">7. Pivote y espejo</a>
+    <a href="#claves">8. Claves, Shift &amp; Trace y ciclos</a>
+    <a href="#grupos">9. Grupos y mesa de luz</a>
+    <a href="#guias">10. Guías y gráfico de timing</a>
+    <a href="#exportar">11. Exportar (PNG, GIF, MP4)</a>
+    <a href="#atajos">12. Atajos</a>
+    <a href="#idiomas">13. Idiomas y "Acerca de"</a>
+    <a href="#problemas">14. Problemas comunes</a>
+  </aside>
+
+  <main>
+
+    <section id="instalar">
+      <h2>1. Instalar</h2>
+      <ol>
+        <li>Descarga <a href="Pegbar-1.0.1.ccx" download><code>Pegbar-1.0.1.ccx</code></a> (o desde la <a href="index.html">página de Pegbar</a>).</li>
+        <li>Cierra Photoshop y haz doble clic en el <code>.ccx</code>. Creative Cloud lo instala y avisa que el plugin no viene del Marketplace: solo confirma.</li>
+        <li>Abre Photoshop y ve a <b>Plugins &gt; Pegbar by Coffee Cat &gt; Pegbar</b>. Puedes acoplar el panel debajo del lienzo, como una línea de tiempo.</li>
+      </ol>
+      <p>Requisitos: Photoshop 2025 (versión 26) o más reciente, en Windows o macOS.</p>
+      <div class="tip"><b>Para actualizar:</b> haz doble clic en el <code>.ccx</code> de la versión nueva; reemplaza a la anterior. Tus archivos no cambian.</div>
+      <div class="tip"><b>¿El icono aparece gris en Creative Cloud?</b> Es normal en plugins instalados desde un archivo. Dentro de Photoshop el icono de la hoja aparece con normalidad.</div>
+    </section>
+
+    <section id="empezar">
+      <h2>2. Primeros pasos</h2>
+      <h3>Cómo guarda Pegbar la animación</h3>
+      <ul>
+        <li>Una animación es un <b>grupo de capas cuyo nombre empieza por <code>[ANIM]</code></b>.</li>
+        <li><b>Cada capa dentro del grupo es un dibujo</b> (una hoja). La capa de abajo es el fotograma 1.</li>
+        <li>La <b>exposición</b> va en el nombre de la capa: <code>F003 [x2]</code> es el dibujo 3 en 2.</li>
+        <li>Las marcas de clave van al final del nombre: <code>F003 [x2] {K}</code>.</li>
+      </ul>
+      <p>Por eso el archivo se abre con normalidad incluso sin el plugin: son capas comunes de Photoshop.</p>
+      <h3>Tu primera animación</h3>
+      <ol>
+        <li>Haz clic en <img class="ic" src="img/icons/groupAdd.png" alt=""> <b>Nuevo grupo de animación</b>. El panel pide un nombre (ej.: "Pelota que rebota").</li>
+        <li>Dibuja en el fotograma 1 con el pincel de Photoshop.</li>
+        <li>Haz clic en <img class="ic" src="img/icons/new.png" alt=""> <b>Nuevo fotograma</b> (o pulsa <kbd>N</kbd>) para tomar una hoja nueva. El papel cebolla muestra el dibujo anterior en rojo.</li>
+        <li>Repite y haz clic en <img class="ic" src="img/icons/play.png" alt=""> <b>Reproducir</b> para ver la animación.</li>
+      </ol>
+      <div class="tip"><b>Consejo:</b> deja el papel o el fondo <b>fuera</b> del grupo <code>[ANIM]</code> y dibuja en capas transparentes. Así el color de la cebola pinta solo el trazo.</div>
+      <h3>Ya tengo dibujos en capas</h3>
+      <p>Selecciona las capas en el panel Capas (o un grupo) y haz clic en <img class="ic" src="img/icons/useSel.png" alt=""> <b>Usar las capas seleccionadas como animación</b>. Se convierten en fotogramas, de abajo hacia arriba.</p>
+    </section>
+
+    <section id="panel">
+      <h2>3. Conociendo el panel</h2>
+      <table>
+        <tr><th>Parte</th><th>Qué contiene</th></tr>
+        <tr><td>Encabezado</td><td>El grupo que estás editando, color del grupo, renombrar, zoom al dibujo, todas las filas, zoom de la línea de tiempo, actualizar, herramientas, "Acerca de" e idioma.</td></tr>
+        <tr><td>Barra principal</td><td>Navegación y reproducción, fps y modo de repetición, deshacer/rehacer, nuevo, duplicar, borrar, mover, corte, cortar/copiar/pegar, exposición y etiquetas.</td></tr>
+        <tr><td>Papel cebolla</td><td>Activar/desactivar, cuántos dibujos antes y después, colores, opacidad, colorear y atenuar.</td></tr>
+        <tr><td>Pestañas de herramientas</td><td>Pivote y espejo · Claves y ciclos · Grupos · Guías · Exportar. El botón <img class="ic" src="img/icons/tools.png" alt=""> muestra u oculta las pestañas.</td></tr>
+        <tr><td>Hojear</td><td>Botones para hojear y la barra naranja para arrastrar.</td></tr>
+        <tr><td>Línea de tiempo</td><td>Una fila por grupo, regla de tiempo y miniaturas de los dibujos.</td></tr>
+      </table>
+      <p>Al dejar el ratón sobre cualquier icono aparece una etiqueta con su nombre y función. La misma descripción aparece en la barra inferior del panel.</p>
+    </section>
+
+    <section id="linea">
+      <h2>4. Línea de tiempo y fotogramas</h2>
+      <h3>Navegar</h3>
+      <p><img class="ic" src="img/icons/first.png" alt=""> primero, <img class="ic" src="img/icons/prev.png" alt=""> anterior, <img class="ic" src="img/icons/next.png" alt=""> siguiente, <img class="ic" src="img/icons/last.png" alt=""> último. O haz clic en una miniatura.</p>
+      <h3>Crear, duplicar, borrar, mover</h3>
+      <table>
+        <tr><th>Botón</th><th>Qué hace</th></tr>
+        <tr><td><img class="ic" src="img/icons/new.png" alt=""> Nuevo fotograma</td><td>Hoja nueva justo después del fotograma actual, con la exposición por defecto.</td></tr>
+        <tr><td><img class="ic" src="img/icons/duplicate.png" alt=""> Duplicar</td><td>Copia del fotograma actual justo después de él.</td></tr>
+        <tr><td><img class="ic" src="img/icons/delete.png" alt=""> Borrar</td><td>Borra los fotogramas seleccionados (o el actual). Ctrl+Z lo deshace.</td></tr>
+        <tr><td><img class="ic" src="img/icons/moveL.png" alt=""> <img class="ic" src="img/icons/moveR.png" alt=""> Mover</td><td>Cambia la posición del fotograma (o de los seleccionados).</td></tr>
+        <tr><td><img class="ic" src="img/icons/cut.png" alt=""> <img class="ic" src="img/icons/copy.png" alt=""> <img class="ic" src="img/icons/paste.png" alt=""></td><td>Cortar, copiar y pegar fotogramas. Pegar va después del fotograma actual.</td></tr>
+        <tr><td><img class="ic" src="img/icons/undo.png" alt=""> <img class="ic" src="img/icons/redo.png" alt=""></td><td>Deshacer y rehacer: un paso en el historial de Photoshop.</td></tr>
+        <tr><td><img class="ic" src="img/icons/renumber.png" alt=""> Renumerar</td><td>Renombra los fotogramas en orden: F001, F002…</td></tr>
+      </table>
+      <h3>Seleccionar varios</h3>
+      <p><kbd>Ctrl</kbd> + clic añade un fotograma a la selección; <kbd>Shift</kbd> + clic selecciona un intervalo.</p>
+      <h3>Arrastrar dibujos</h3>
+      <ul>
+        <li>Haz clic en una miniatura y arrastra: una marca azul indica dónde entrará.</li>
+        <li>Funciona en la misma fila (reordenar) y hacia la fila de <b>otro grupo</b>.</li>
+        <li><kbd>Alt</kbd> + arrastrar <b>copia</b> en lugar de mover.</li>
+        <li>Soltar sobre el nombre de un grupo envía el dibujo al final de esa fila.</li>
+      </ul>
+      <h3>Etiquetas de color</h3>
+      <p>Selecciona fotogramas y haz clic en un color en <b>Etiqueta</b>. Son los colores de capa de Photoshop, así que también aparecen en el panel Capas. El <b>color del grupo</b>, en el encabezado, pinta el grupo y todos sus fotogramas a la vez.</p>
+      <h3>Miniaturas</h3>
+      <p>Con <b>Zoom al dibujo</b> activado, las miniaturas encuadran solo la zona donde hay dibujo en ese grupo (igual para todos los fotogramas). Desactivado, muestran la página entera. El botón <img class="ic" src="img/icons/refresh.png" alt=""> las rehace todas.</p>
+      <p>Los botones <img class="ic" src="img/icons/zoomOut.png" alt=""> <img class="ic" src="img/icons/zoomIn.png" alt=""> y los controles de ancho y alto amplían o reducen la línea de tiempo.</p>
+    </section>
+
+    <section id="exposicion">
+      <h2>5. Exposición y corte</h2>
+      <h3>Cambiar la exposición</h3>
+      <ul>
+        <li><img class="ic" src="img/icons/minus.png" alt=""> <img class="ic" src="img/icons/plus.png" alt=""> reducen o aumentan la exposición del fotograma actual (o de los seleccionados).</li>
+        <li>O <b>escribe el número</b> en el campo de exposición: <code>24</code> deja el fotograma en x24 (hasta x999).</li>
+        <li>O <b>alárgalo en la línea de tiempo</b>: pasa el ratón por el borde derecho de una celda (se pone azul) y arrastra hacia los lados.</li>
+      </ul>
+      <h3>Exposición por defecto</h3>
+      <p>En <b>por defecto x</b>, define la exposición de los fotogramas nuevos (ej.: 2 para animar "en 2"). <img class="ic" src="img/icons/applyAll.png" alt=""> <b>Aplicar a todos</b> pone esa exposición en todos los fotogramas, o solo en los seleccionados.</p>
+      <h3>Corte (cuchilla)</h3>
+      <p>Como en la edición de vídeo. Haz clic en <img class="ic" src="img/icons/razor.png" alt=""> (o pulsa <kbd>C</kbd>) para activar el corte; una línea roja muestra dónde cortará.</p>
+      <ul>
+        <li><b>Haz clic</b> dentro de una exposición para dividirla: un dibujo en x5 cortado tras su 3.º cuadro queda en x3 + x2. La parte derecha queda seleccionada; pulsa <kbd>Supr</kbd> para quitarla.</li>
+        <li><b>Shift + clic</b> corta y quita el resto de una vez: x5 pasa a x3.</li>
+        <li><kbd>Esc</kbd> desactiva el corte.</li>
+      </ul>
+    </section>
+
+    <section id="ver">
+      <h2>6. Reproducir, hojear y papel cebolla</h2>
+      <h3>Reproducir</h3>
+      <p><img class="ic" src="img/icons/play.png" alt=""> reproduce la animación <b>en el propio lienzo</b>, a los fps elegidos, respetando la exposición. Junto a los fps elige <b>Bucle</b>, <b>Ping-pong</b> (ida y vuelta) o <b>Una vez</b>. Espacio o Esc la detienen.</p>
+      <h3>Hojear</h3>
+      <table>
+        <tr><th>Botón</th><th>Qué hace</th></tr>
+        <tr><td><img class="ic" src="img/icons/flipBefore.png" alt=""> Anteriores</td><td>Hojea desde los dibujos anteriores hasta el actual.</td></tr>
+        <tr><td><img class="ic" src="img/icons/flipAround.png" alt=""> Alrededor</td><td>De los anteriores a los siguientes, y vuelve al actual.</td></tr>
+        <tr><td><img class="ic" src="img/icons/flipAfter.png" alt=""> Siguientes</td><td>Del actual a los siguientes, y vuelve.</td></tr>
+        <tr><td>Barra naranja / regla</td><td>Haz clic y arrastra en la barra de hojear o en la regla de números de la línea de tiempo para elegir el dibujo.</td></tr>
+      </table>
+      <p>El número junto a los botones define cuántos dibujos a cada lado.</p>
+      <h3>Papel cebolla</h3>
+      <ul>
+        <li>Marca <img class="ic" src="img/icons/onion.png" alt=""> <b>Cebolla</b> (o pulsa <kbd>O</kbd>).</li>
+        <li><b>antes / después</b>: cuántos dibujos aparecen a cada lado, y el color de cada lado.</li>
+        <li><b>opacidad</b>, <b>colorear</b> (pinta el trazo) y <b>atenuar</b> (los más lejanos quedan más claros).</li>
+        <li><img class="ic" src="img/icons/clean.png" alt=""> <b>Limpiar papel cebolla</b> quita el color y la transparencia de todos los fotogramas. Úsalo antes de exportar o enviar el archivo.</li>
+      </ul>
+    </section>
+
+    <section id="pivote">
+      <h2>7. Pivote y espejo</h2>
+      <p>Pestaña <b>Pivote y espejo</b>. El pivote (anchor point) es el punto alrededor del cual el objeto gira, escala y se refleja, como en Toon Boom.</p>
+      <h3>Qué es el "objeto"</h3>
+      <ul>
+        <li><b>Con una selección activa</b> (lazo o marco alrededor del dibujo): el objeto es lo seleccionado.</li>
+        <li><b>Sin selección</b>: el objeto es la capa entera seleccionada en el panel Capas.</li>
+      </ul>
+      <h3>Definir el pivote</h3>
+      <ul>
+        <li><b>9 puntos</b>: la cuadrícula coloca el pivote en las esquinas, los bordes o el centro del objeto.</li>
+        <li><img class="ic" src="img/icons/pivotSel.png" alt=""> <b>Desde la selección</b>: pivote en el centro de la selección. Si la selección es diminuta (un clic con el Lazo), solo marca el punto y desaparece.</li>
+        <li><b>x / y</b>: escribe la posición en píxeles. <img class="ic" src="img/icons/pivotCenter.png" alt=""> vuelve al centro.</li>
+        <li><b>guías</b> marca el pivote con dos guías en el lienzo.</li>
+      </ul>
+      <h3>Transformar</h3>
+      <table>
+        <tr><th>Botón</th><th>Qué hace</th></tr>
+        <tr><td><img class="ic" src="img/icons/rotL.png" alt=""> <img class="ic" src="img/icons/rotR.png" alt=""></td><td>Gira en el pivote, con el paso en grados elegido.</td></tr>
+        <tr><td><img class="ic" src="img/icons/freeT.png" alt=""> A mano</td><td>Abre el Ctrl+T de Photoshop con el punto de referencia ya en el pivote. Enter confirma.</td></tr>
+        <tr><td><img class="ic" src="img/icons/zoomOut.png" alt=""> <img class="ic" src="img/icons/zoomIn.png" alt=""></td><td>Reduce o amplía desde el pivote, con el paso en % elegido.</td></tr>
+        <tr><td><img class="ic" src="img/icons/flipH.png" alt=""> <img class="ic" src="img/icons/flipV.png" alt=""> Objeto</td><td>Refleja el objeto en horizontal o en vertical, con el eje en el pivote.</td></tr>
+        <tr><td><img class="ic" src="img/icons/viewH.png" alt=""> <img class="ic" src="img/icons/viewV.png" alt=""> Vista</td><td>Voltea toda la vista (reflejada o al revés) para revisar el dibujo. Pulsa de nuevo para volver.</td></tr>
+        <tr><td><img class="ic" src="img/icons/symmetry.png" alt=""> Dibujo simétrico</td><td>Activa el pincel; haz clic en la mariposa de la barra de opciones de Photoshop y elige la simetría. Lo que dibujas de un lado aparece del otro.</td></tr>
+      </table>
+    </section>
+
+    <section id="claves">
+      <h2>8. Claves, Shift &amp; Trace y ciclos</h2>
+      <h3>Marcas</h3>
+      <p>Selecciona fotogramas y haz clic en <b>K</b> (clave), <b>B</b> (extremo / breakdown) o <b>I</b> (intermedio). La letra aparece en la línea de tiempo.</p>
+      <ul>
+        <li><b>cebolla solo claves</b>: el papel cebolla muestra solo claves y extremos.</li>
+        <li><b>prueba de poses</b>: la reproducción muestra solo claves y extremos, cada uno hasta el siguiente.</li>
+      </ul>
+      <h3>Shift &amp; Trace</h3>
+      <ol>
+        <li>En un intermedio, haz clic en <img class="ic" src="img/icons/stPrev.png" alt=""> (dibujo anterior) o <img class="ic" src="img/icons/stNext.png" alt=""> (siguiente).</li>
+        <li>Aparece una copia temporal coloreada de ese dibujo. Muévela con la herramienta Mover (<kbd>V</kbd>), con Ctrl+T, con las flechas del panel, o gírala/refléjala con la pestaña del pivote.</li>
+        <li>Dibuja el intermedio encima y haz clic en <img class="ic" src="img/icons/check.png" alt=""> <b>Terminar</b>. La copia desaparece; el dibujo original no cambia.</li>
+      </ol>
+      <h3>Ciclos</h3>
+      <p>Repite los fotogramas seleccionados (o todos) las veces que elijas: <img class="ic" src="img/icons/loop.png" alt=""> bucle, <img class="ic" src="img/icons/pingpong.png" alt=""> ping-pong (ida y vuelta) o <img class="ic" src="img/icons/random.png" alt=""> aleatorio (ideal para fuego, agua y temblores).</p>
+    </section>
+
+    <section id="grupos">
+      <h2>9. Grupos y mesa de luz</h2>
+      <p>Usa un grupo <code>[ANIM]</code> por cada capa de trabajo: rough, limpio, personaje A, personaje B, fondo animado…</p>
+      <ul>
+        <li>Cada grupo es una <b>fila</b> en la línea de tiempo. Haz clic en el nombre o en una celda de otra fila para editarla, en el mismo tiempo.</li>
+        <li><img class="ic" src="img/icons/rename.png" alt=""> renombra el grupo; el punto de color junto a la lista muestra su color.</li>
+        <li>Pestaña <b>Grupos</b> &gt; <b>Sincronizar todos los grupos</b>: reproducir, hojear y navegar muestran todos los grupos en el mismo tiempo.</li>
+        <li><b>Mesa de luz</b>: los otros grupos se aclaran mientras dibujas en el grupo elegido.</li>
+      </ul>
+    </section>
+
+    <section id="guias">
+      <h2>10. Guías y gráfico de timing</h2>
+      <h3>Encuadre</h3>
+      <p><img class="ic" src="img/icons/guides.png" alt=""> Elige un formato (documento completo, 16:9, 9:16, 1:1 o 4:5). Aparecen guías del borde del formato, de la zona de acción (93%) y de la zona de título (90%).</p>
+      <h3>Gráfico de timing</h3>
+      <p><img class="ic" src="img/icons/timing.png" alt=""> Elige cuántos intermedios, el suavizado (constante, lento al inicio, lento al final o lento en los extremos), la dirección y el tamaño, y haz clic en <b>Dibujar</b>. La regla de espaciado se dibuja en una capa <code>[GUIA]</code> aparte, en el pivote de la capa seleccionada.</p>
+    </section>
+
+    <section id="exportar">
+      <h2>11. Exportar (PNG, GIF, MP4)</h2>
+      <p>Pestaña <b>Exportar</b>: elige el formato y haz clic en <img class="ic" src="img/icons/export.png" alt=""> <b>Exportar…</b>; luego elige la carpeta. La exportación usa la imagen completa (con fondo), sin papel cebolla, respetando la exposición y los grupos sincronizados.</p>
+      <table>
+        <tr><th>Formato</th><th>Cómo funciona</th></tr>
+        <tr><td>Secuencia PNG</td><td>Un PNG por cuadro (<code>nombre_0001.png</code>…). Marca <b>una imagen por dibujo</b> para no repetir las exposiciones.</td></tr>
+        <tr><td>GIF animado</td><td>Listo para compartir, en bucle, con la duración de cada dibujo. En <b>tamaño</b>, elige el porcentaje del documento (50% deja el archivo ligero).</td></tr>
+        <tr><td>Vídeo MP4</td><td>Pegbar exporta la secuencia PNG y muestra los pasos de abajo.</td></tr>
+      </table>
+      <h3>Hacer un MP4 en Photoshop</h3>
+      <ol>
+        <li><b>Archivo &gt; Abrir</b> y elige el primer PNG exportado (<code>…_0001.png</code>).</li>
+        <li>Marca <b>Secuencia de imágenes</b>, haz clic en Abrir e indica los mismos fps.</li>
+        <li><b>Archivo &gt; Exportar &gt; Procesar vídeo…</b>, formato <b>H.264</b>, y haz clic en Procesar.</li>
+      </ol>
+      <p>La secuencia PNG también se puede importar en editores como Premiere, After Effects, DaVinci Resolve o CapCut.</p>
+    </section>
+
+    <section id="atajos">
+      <h2>12. Atajos</h2>
+      <h3>Con el panel enfocado</h3>
+      <table>
+        <tr><th>Tecla</th><th>Acción</th></tr>
+        <tr><td><kbd>←</kbd> <kbd>→</kbd> o <kbd>,</kbd> <kbd>.</kbd></td><td>Fotograma anterior / siguiente</td></tr>
+        <tr><td><kbd>Espacio</kbd></td><td>Reproducir / Detener</td></tr>
+        <tr><td><kbd>N</kbd> / <kbd>D</kbd></td><td>Nuevo fotograma / duplicar</td></tr>
+        <tr><td><kbd>+</kbd> / <kbd>-</kbd></td><td>Más / menos exposición</td></tr>
+        <tr><td><kbd>O</kbd></td><td>Activar/desactivar el papel cebolla</td></tr>
+        <tr><td><kbd>C</kbd></td><td>Activar/desactivar el corte</td></tr>
+        <tr><td><kbd>Supr</kbd></td><td>Borrar los fotogramas seleccionados</td></tr>
+        <tr><td><kbd>Ctrl</kbd>+<kbd>X</kbd> / <kbd>C</kbd> / <kbd>V</kbd></td><td>Cortar / copiar / pegar fotogramas</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Detener la reproducción o desactivar el corte</td></tr>
+      </table>
+      <h3>En cualquier parte de Photoshop</h3>
+      <p>Los comandos principales están en <b>Plugins &gt; Pegbar by Coffee Cat</b>: siguiente, anterior, nuevo, duplicar, cebolla, reproducir, exposición, hojear, corte, girar y reflejar en el pivote, Shift &amp; Trace y otros. Para asignar atajos de teclado, ve a <b>Edición &gt; Métodos abreviados de teclado &gt; Menús de aplicación</b> y busca el menú <b>Plugins</b>.</p>
+    </section>
+
+    <section id="idiomas">
+      <h2>13. Idiomas y "Acerca de"</h2>
+      <p>En la esquina derecha del encabezado, elige <b>PT</b>, <b>EN</b> o <b>ES</b>. La primera vez, Pegbar se abre en el idioma de tu Photoshop. Se traducen los botones, las descripciones, los mensajes y los nombres de los pasos en el historial de Photoshop.</p>
+      <p><img class="ic" src="img/icons/about.png" alt=""> (o el menú del panel) abre <b>Acerca de Pegbar</b>, con la versión, el sitio y el enlace para apoyar el proyecto.</p>
+    </section>
+
+    <section id="problemas">
+      <h2>14. Problemas comunes</h2>
+      <h3>Las miniaturas aparecen en blanco</h3>
+      <p>Comprueba que <b>Zoom al dibujo</b> esté marcado y haz clic en <img class="ic" src="img/icons/refresh.png" alt=""> Actualizar. Si continúa, abre la pestaña <b>Exportar</b> y haz clic en <b>Probar miniaturas</b>: aparece un cuadro con los detalles. Envíanos una captura.</p>
+      <h3>La reproducción llena el historial</h3>
+      <p>En <b>Preferencias &gt; Historia</b>, desmarca "Permitir deshacer los cambios de visibilidad de capas".</p>
+      <h3>Mis dibujos están coloreados o transparentes</h3>
+      <p>Es el papel cebolla. Haz clic en <img class="ic" src="img/icons/clean.png" alt=""> <b>Limpiar papel cebolla</b>.</p>
+      <h3>El pivote no queda donde lo marqué</h3>
+      <p>Recuerda: con una selección activa, los 9 puntos usan los límites de la selección; sin selección, usan la capa. Activa <b>guías</b> para ver dónde está el pivote antes de girar.</p>
+      <h3>Desapareció un estilo de capa mío</h3>
+      <p>El color de la cebola usa el efecto "Superposición de colores" de la capa. Evita estilos de capa en las capas de dibujo, o desactiva <b>colorear</b> en la cebolla.</p>
+      <h3>Encontré un error</h3>
+      <p>Abre un "issue" en <a href="https://github.com/danilars-maker/pegbar/issues">GitHub</a> o escribe a Coffee Cat Studio desde el <a href="https://coffeecat.com.br">sitio</a>, con una captura del panel y tu versión de Photoshop.</p>
+    </section>
+
+    <div class="cta">
+      <div>
+        <h2 style="color:#fff;margin:0 0 6px">Pegbar es gratis ☕</h2>
+        <p>Si te ahorra tiempo, un cafecito ayuda a mantenerlo funcionando en las próximas versiones de Photoshop y a crear herramientas nuevas.</p>
+      </div>
+      <a class="btn coffee" href="https://buymeacoffee.com/studiocoffeecat" target="_blank" rel="noopener">☕ Invítame un café</a>
+    </div>
+
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    Pegbar by Coffee Cat · Hecho por Danila Ribeiro · <a href="https://coffeecat.com.br">Coffee Cat Studio</a> · São Bernardo do Campo, Brasil<br>
+    Photoshop es una marca registrada de Adobe. Pegbar es un proyecto independiente.
+  </div>
+</footer>
+
+</body>
+</html>

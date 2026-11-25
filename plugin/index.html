@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- Cabeçalho: grupo de animação e visualização -->
+    <div class="hdr">
+      <span id="groupDot" class="dot"></span>
+      <select id="groupSelect" title="Grupo de animação que você está editando"></select>
+      <div class="ib" id="btnCreateGroup" title="Novo grupo de animação"><img data-icon="groupAdd"></div>
+      <div class="ib" id="btnRename" title="Renomear o grupo"><img data-icon="rename"></div>
+      <div class="ib" id="btnUseSelected" title="Usar as camadas selecionadas como animação"><img data-icon="useSel"></div>
+      <span id="groupLabels" class="dots" title="Cor do grupo (pinta o grupo e todos os frames)"></span>
+      <span id="renameBox" style="display:none">
+        <input type="text" id="renameInput" class="field text" title="Nome do grupo">
+        <div class="ib" id="btnRenameOk" title="Confirmar nome"><img data-icon="check"></div>
+        <div class="ib" id="btnRenameCancel" title="Cancelar"><img data-icon="close"></div>
+      </span>
+      <span class="spacer"></span>
+      <label class="tgl" title="Miniaturas enquadram só o desenho (desmarque para ver a página inteira)"><input type="checkbox" id="thumbFit">Zoom no desenho</label>
+      <label class="tgl" title="Mostrar todos os grupos como linhas na timeline"><input type="checkbox" id="showAllRows">Todas as linhas</label>
+      <div class="ib" id="btnZoomOut" title="Diminuir a timeline"><img data-icon="zoomOut"></div>
+      <input type="range" id="zoom" min="16" max="120" step="4" class="mini" title="Largura das células">
+      <input type="range" id="thumbH" min="20" max="140" step="4" class="mini" title="Altura das miniaturas">
+      <div class="ib" id="btnZoomIn" title="Aumentar a timeline"><img data-icon="zoomIn"></div>
+      <span class="vsep"></span>
+      <div class="ib" id="btnRefresh" title="Atualizar (reler o documento e refazer as miniaturas)"><img data-icon="refresh"></div>
+      <div class="ib" id="btnTools" title="Mostrar/esconder as ferramentas"><img data-icon="tools"></div>
+      <div class="ib" id="btnAbout" title="Sobre o Pegbar"><img data-icon="about"></div>
+      <select id="langSelect" class="field lang" title="Idioma">
+        <option value="pt">PT</option>
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+      </select>
+    </div>
+
+    <!-- Barra principal -->
+    <div class="tb">
+      <div class="grp">
+        <div class="ib" id="btnFirst" title="Primeiro frame"><img data-icon="first"></div>
+        <div class="ib" id="btnPrev" title="Frame anterior (seta esquerda ou vírgula)"><img data-icon="prev"></div>
+        <div class="ib play" id="btnPlay" title="Play / Stop (espaço)"><img data-icon="play"></div>
+        <div class="ib" id="btnNext" title="Próximo frame (seta direita ou ponto)"><img data-icon="next"></div>
+        <div class="ib" id="btnLast" title="Último frame"><img data-icon="last"></div>
+        <input type="number" id="fps" min="1" max="60" step="1" class="field num" title="Quadros por segundo">
+        <span class="unit">fps</span>
+        <select id="playMode" class="field small" title="Como o play repete">
+          <option value="loop">Loop</option>
+          <option value="pingpong">Ping-pong</option>
+          <option value="once">Uma vez</option>
+        </select>
+      </div>
+      <span class="vsep"></span>
+      <div class="grp">
+        <div class="ib" id="btnUndo" title="Desfazer (volta um passo no histórico, como Ctrl+Z)"><img data-icon="undo"></div>
+        <div class="ib" id="btnRedo" title="Refazer (avança um passo no histórico, como Ctrl+Shift+Z)"><img data-icon="redo"></div>
+      </div>
+      <span class="vsep"></span>
+      <div class="grp">
+        <div class="ib wide" id="btnNew" title="Novo frame — folha nova depois do atual (N)"><img src="icons/new-frame@2x.png" class="sheet"></div>
+        <div class="ib" id="btnDup" title="Duplicar o frame atual (D)"><img data-icon="duplicate"></div>
+        <div class="ib danger" id="btnDelete" title="Apagar os frames selecionados (Delete)"><img data-icon="delete"></div>
+        <div class="ib" id="btnMoveL" title="Mover frame(s) para a esquerda"><img data-icon="moveL"></div>
+        <div class="ib" id="btnMoveR" title="Mover frame(s) para a direita"><img data-icon="moveR"></div>
+        <div class="ib" id="btnRazor" title="Corte (C): clique dentro de uma exposição para dividi-la; Shift + clique corta e tira o resto"><img data-icon="razor"></div>
+      </div>
+      <span class="vsep"></span>
+      <div class="grp">
+        <div class="ib" id="btnCut" title="Recortar frames (Ctrl+X)"><img data-icon="cut"></div>
+        <div class="ib" id="btnCopy" title="Copiar frames (Ctrl+C)"><img data-icon="copy"></div>
+        <div class="ib" id="btnPaste" title="Colar depois do frame atual (Ctrl+V)"><img data-icon="paste"></div>
+      </div>
+      <span class="vsep"></span>
+      <div class="grp">
+        <span class="lbl">Exposição</span>
+        <div class="ib" id="btnHoldDown" title="Diminuir exposição (-)"><img data-icon="minus"></div>
+        <span class="unit">x</span><input type="number" id="holdValue" min="1" max="999" step="1" class="field num" title="Exposição do frame atual (digite qualquer número, ex.: 24)">
+        <div class="ib" id="btnHoldUp" title="Aumentar exposição (+)"><img data-icon="plus"></div>
+        <span class="lbl">padrão x</span>
+        <input type="number" id="defaultHold" min="1" max="999" step="1" class="field num" title="Exposição dos frames novos">
+        <div class="ib" id="btnApplyHold" title="Aplicar a exposição padrão em todos os frames (ou nos selecionados)"><img data-icon="applyAll"></div>
+      </div>
+      <span class="vsep"></span>
+      <div class="grp">
+        <span class="lbl">Etiqueta</span>
+        <span id="labels" class="dots" title="Cor dos frames selecionados"></span>
+      </div>
+    </div>
+
+    <!-- Casca de cebola -->
+    <div class="tb">
+      <div class="grp">
+        <label class="tgl strong" title="Ligar/desligar a casca de cebola (O)"><input type="checkbox" id="onionOn"><img data-icon="onion" class="inl">Cebola</label>
+        <span class="lbl">antes</span>
+        <input type="number" id="onionBefore" min="0" max="6" step="1" class="field num" title="Quantos desenhos antes">
+        <span id="swBefore" class="dots" title="Cor dos desenhos anteriores"></span>
+        <span class="lbl">depois</span>
+        <input type="number" id="onionAfter" min="0" max="6" step="1" class="field num" title="Quantos desenhos depois">
+        <span id="swAfter" class="dots" title="Cor dos desenhos seguintes"></span>
+        <span class="lbl">opacidade</span>
+        <input type="range" id="onionOpacity" min="5" max="90" step="5" class="mini" title="Opacidade da cebola">
+        <span id="onionOpacityVal" class="val"></span>
+        <label class="tgl" title="Colorir a cebola"><input type="checkbox" id="onionTint">colorir</label>
+        <label class="tgl" title="Os mais distantes ficam mais claros"><input type="checkbox" id="onionFalloff">esmaecer</label>
+      </div>
+      <span class="spacer"></span>
+      <div class="ib" id="btnCleanOnion" title="Limpar cebola: tira cor e transparência de todos os frames (use antes de exportar)"><img data-icon="clean"></div>
+      <div class="ib" id="btnRenumber" title="Renumerar os frames em ordem (F001, F002…)"><img data-icon="renumber"></div>
+    </div>
+
+    <!-- Ferramentas em abas -->
+    <div class="tabs" id="tabRow">
+      <div class="tab" id="tabBtn-pivot" data-tab="pivot" title="Pivô, girar, escalar e espelhar">Pivô e espelhar</div>
+      <div class="tab" id="tabBtn-anim" data-tab="anim" title="Marcas de chave, Shift &amp; Trace e ciclos">Chaves e ciclos</div>
+      <div class="tab" id="tabBtn-groups" data-tab="groups" title="Sincronizar grupos e mesa de luz">Grupos</div>
+      <div class="tab" id="tabBtn-guides" data-tab="guides" title="Guias de enquadramento e gráfico de timing">Guias</div>
+      <div class="tab" id="tabBtn-export" data-tab="export" title="Exportar a animação">Exportar</div>
+    </div>
+
+    <div class="pane" id="tab-pivot">
+      <div class="grp">
+        <span class="lbl strong">Pivô</span>
+        <span class="pgrid" title="Coloca o pivô num dos 9 pontos da camada">
+          <span class="prow"><span class="pp" data-p="tl"></span><span class="pp" data-p="tc"></span><span class="pp" data-p="tr"></span></span>
+          <span class="prow"><span class="pp" data-p="ml"></span><span class="pp" data-p="mc"></span><span class="pp" data-p="mr"></span></span>
+          <span class="prow"><span class="pp" data-p="bl"></span><span class="pp" data-p="bc"></span><span class="pp" data-p="br"></span></span>
+        </span>
+        <div class="ib" id="btnPivotSel" title="Pivô no centro da seleção (faça uma seleção pequena antes)"><img data-icon="pivotSel"></div>
+        <div class="ib" id="btnPivotReset" title="Pivô no centro da camada"><img data-icon="pivotCenter"></div>
+        <span class="lbl">x</span><input type="number" id="pivotX" class="field num wide" title="Posição x do pivô (px)">
+        <span class="lbl">y</span><input type="number" id="pivotY" class="field num wide" title="Posição y do pivô (px)">
+        <span id="pivotInfo" class="lbl"></span>
+        <label class="tgl" title="Marcar o pivô com guias"><input type="checkbox" id="showPivot">guias</label>
+      </div>
+      <span class="vsep"></span>
+      <div class="grp">
+        <div class="ib" id="btnRotL" title="Girar no pivô, anti-horário"><img data-icon="rotL"></div>
+        <input type="number" id="rotStep" class="field num" min="0.1" max="180" step="1" title="Graus por clique">
+        <span class="unit">°</span>
+        <div class="ib" id="btnRotR" title="Girar no pivô, horário"><img data-icon="rotR"></div>
+        <div class="ib" id="btnFreeT" title="Transformar à mão (Ctrl+T) com o ponto de referência no pivô"><img data-icon="freeT"></div>
+      </div>
+      <span class="vsep"></span>
+      <div class="grp">
+        <div class="ib" id="btnScaleDown" title="Diminuir a partir do pivô"><img data-icon="zoomOut"></div>
+        <input type="number" id="scaleStep" class="field num" min="1" max="90" step="1" title="Porcentagem por clique">
+        <span class="unit">%</span>
+        <div class="ib" id="btnScaleUp" title="Aumentar a partir do pivô"><img data-icon="zoomIn"></div>
+      </div>
+      <span class="vsep"></span>
+      <div class="grp">
+        <span class="lbl">Objeto</span>
+        <div class="ib" id="btnFlipObjH" title="Espelhar o objeto na horizontal (eixo no pivô)"><img data-icon="flipH"></div>
+        <div class="ib" id="btnFlipObjV" title="Espelhar o objeto na vertical (eixo no pivô)"><img data-icon="flipV"></div>
+        <span class="lbl">Tela</span>
+        <div class="ib" id="btnViewH" title="Ver a tela espelhada (aperte de novo para voltar)"><img data-icon="viewH"></div>
+        <div class="ib" id="btnViewV" title="Ver a tela de cabeça para baixo (aperte de novo para voltar)"><img data-icon="viewV"></div>
+        <div class="ib" id="btnSymmetry" title="Desenhar espelhado: ativa o pincel; escolha a simetria na borboleta da barra de opções"><img data-icon="symmetry"></div>
+      </div>
+    </div>
+
+    <div class="pane" id="tab-anim">
+      <div class="grp">
+        <span class="lbl strong">Marcar</span>
+        <div class="tbtn mkK" id="btnMarkK" title="Marcar como chave (K)">K</div>
+        <div class="tbtn mkB" id="btnMarkB" title="Marcar como extremo / breakdown (B)">B</div>
+        <div class="tbtn mkI" id="btnMarkI" title="Marcar como intervalo (I)">I</div>
+        <div class="ib" id="btnMarkNone" title="Tirar a marca"><img data-icon="close"></div>
+        <label class="tgl" title="A cebola mostra só chaves e extremos"><input type="checkbox" id="onionKeysOnly">cebola só chaves</label>
+        <label class="tgl" title="O play mostra só chaves e extremos, cada um parado até o próximo"><input type="checkbox" id="poseTest">teste de poses</label>
+      </div>
+      <span class="vsep"></span>
+      <div class="grp">
+        <span class="lbl strong">Shift &amp; Trace</span>
+        <div class="ib" id="btnStPrev" title="Shift &amp; Trace do desenho anterior (cópia temporária para alinhar)"><img data-icon="stPrev"></div>
+        <div class="ib" id="btnStNext" title="Shift &amp; Trace do desenho seguinte"><img data-icon="stNext"></div>
+        <div class="ib" id="btnStL" title="Mover a cópia para a esquerda"><img data-icon="arrowL"></div>
+        <div class="ib" id="btnStU" title="Mover a cópia para cima"><img data-icon="arrowU"></div>
+        <div class="ib" id="btnStD" title="Mover a cópia para baixo"><img data-icon="arrowD"></div>
+        <div class="ib" id="btnStR" title="Mover a cópia para a direita"><img data-icon="arrowR"></div>
+        <input type="number" id="stStep" class="field num" min="1" max="200" step="1" title="Pixels por clique">
+        <span class="unit">px</span>
+        <div class="ib" id="btnStEnd" title="Terminar Shift &amp; Trace (apaga a cópia)"><img data-icon="check"></div>
+        <span id="stState" class="lbl stOn"></span>
+      </div>
+      <span class="vsep"></span>
+      <div class="grp">
+        <span class="lbl strong">Ciclo</span>
+        <input type="number" id="repeatCount" class="field num" min="1" max="20" step="1" title="Quantas vezes repetir">
+        <span class="unit">x</span>
+        <div class="ib" id="btnCycle" title="Repetir em loop (selecionados, ou todos)"><img data-icon="loop"></div>
+        <div class="ib" id="btnCyclePP" title="Repetir indo e voltando (ping-pong)"><img data-icon="pingpong"></div>
+        <div class="ib" id="btnCycleRnd" title="Repetir em ordem aleatória (fogo, água, tremidas)"><img data-icon="random"></div>
+      </div>
+    </div>
+
+    <div class="pane" id="tab-groups">
+      <label class="tgl" title="Play, flip e navegação mostram todos os grupos no mesmo tempo"><input type="checkbox" id="syncGroups">Sincronizar todos os grupos</label>
+      <span class="vsep"></span>
+      <label class="tgl" title="Os outros grupos ficam clarinhos enquanto você desenha"><input type="checkbox" id="lightTable">Mesa de luz</label>
+      <input type="range" id="lightOpacity" min="5" max="90" step="5" class="mini" title="Opacidade dos outros grupos">
+      <span id="lightOpacityVal" class="val"></span>
+      <span class="lbl hint">Arraste desenhos de uma linha para outra na timeline. Alt + arrastar copia.</span>
+    </div>
+
+    <div class="pane" id="tab-guides">
+      <div class="grp">
+        <img data-icon="guides" class="inl">
+        <select id="fieldGuide" class="field small" title="Guias de enquadramento: borda, área de ação (93%) e de título (90%)">
+          <option value="none">Sem guias</option>
+          <option value="doc">Documento inteiro</option>
+          <option value="16:9">16:9 (YouTube)</option>
+          <option value="9:16">9:16 (Reels / Shorts)</option>
+          <option value="1:1">1:1</option>
+          <option value="4:5">4:5 (feed)</option>
+        </select>
+      </div>
+      <span class="vsep"></span>
+      <div class="grp">
+        <img data-icon="timing" class="inl">
+        <input type="number" id="tcCount" class="field num" min="1" max="30" step="1" title="Intervalos entre as duas chaves">
+        <span class="unit">int.</span>
+        <select id="tcEase" class="field small" title="Suavização">
+          <option value="linear">Constante</option>
+          <option value="in">Devagar no início</option>
+          <option value="out">Devagar no fim</option>
+          <option value="inout">Devagar nas pontas</option>
+        </select>
+        <select id="tcOrient" class="field small" title="Direção do gráfico">
+          <option value="vertical">Vertical</option>
+          <option value="horizontal">Horizontal</option>
+        </select>
+        <input type="number" id="tcLength" class="field num wide" min="40" max="4000" step="10" title="Comprimento (px)">
+        <span class="unit">px</span>
+        <div class="tbtn" id="btnTiming" title="Desenhar o gráfico de timing numa camada [GUIA], no pivô">Desenhar</div>
+      </div>
+    </div>
+
+    <div class="pane" id="tab-export">
+      <div class="grp">
+        <select id="exportFormat" class="field small" title="Formato da exportação">
+          <option value="png">Sequência PNG</option>
+          <option value="gif">GIF animado</option>
+          <option value="mp4">Vídeo MP4 (via Photoshop)</option>
+        </select>
+        <div class="tbtn accent" id="btnExportPNG" title="Exportar a animação no formato escolhido, numa pasta"><img data-icon="export" class="inl">Exportar…</div>
+        <span id="pngOpts" class="grp"><label class="tgl" title="Sem repetir as imagens das exposições"><input type="checkbox" id="exportOnePer">uma imagem por desenho</label></span>
+        <span id="gifOpts" class="grp"><span class="lbl">tamanho</span><input type="number" id="gifScale" min="10" max="100" step="5" class="field num" title="Tamanho do GIF em relação ao documento (%)"><span class="unit">%</span></span>
+      </div>
+      <span class="vsep"></span>
+      <div class="tbtn" id="btnDiag" title="Gera a miniatura do frame atual e mostra cada passo (para achar problemas)">Testar miniaturas</div>
+      <span class="lbl hint">Imagem inteira (com fundo), sem cebola, respeitando exposição e grupos sincronizados.</span>
+    </div>
+
+    <div id="diagBox">
+      <img id="diagImg">
+      <div id="diagText"></div>
+      <div class="ib" id="btnDiagClose" title="Fechar"><img data-icon="close"></div>
+    </div>
+
+    <!-- Flip -->
+    <div class="tb flipRow">
+      <span class="lbl strong accentTxt">Flip</span>
+      <div class="ib" id="btnFlipBefore" title="Flipar: dos anteriores até o atual"><img data-icon="flipBefore"></div>
+      <div class="ib" id="btnFlipAround" title="Flipar: ao redor do atual (e volta)"><img data-icon="flipAround"></div>
+      <div class="ib" id="btnFlipAfter" title="Flipar: do atual até os seguintes (e volta)"><img data-icon="flipAfter"></div>
+      <input type="number" id="flipCount" class="field num" min="1" max="24" step="1" title="Quantos desenhos para cada lado">
+      <div id="flipBar" title="Clique e arraste para flipar os desenhos no canvas"><div id="flipKnob"></div></div>
+      <span id="flipValue" class="val"></span>
+    </div>
+
+    <!-- Timeline -->
+    <div id="timelineWrap">
+      <div id="ruler"></div>
+      <div id="track"></div>
+    </div>
+
+    <div id="status"></div>
+    <div id="tip"></div>
+
+    <!-- Sobre -->
+    <div id="aboutBox">
+      <div class="aboutCard">
+        <img src="icons/plugin@2x.png" class="aboutLogo">
+        <div class="aboutTxt">
+          <div class="aboutName">Pegbar</div>
+          <div id="aboutVersion" class="aboutVer"></div>
+          <div class="aboutBy">Criado por Coffee Cat Studio</div>
+          <div class="aboutSmall">Danila Ribeiro · São Bernardo do Campo, Brasil</div>
+          <div class="aboutLinks">
+            <div class="tbtn" id="lnkSite" title="Abrir o site do Pegbar">coffeecat.com.br/pegbar</div>
+            <div class="tbtn coffee" id="lnkCoffee" title="Apoiar o projeto">☕ Me pague um café</div>
+          </div>
+          <div class="aboutSmall">Gratuito · Licença MIT · Photoshop é marca da Adobe.</div>
+        </div>
+        <div class="ib" id="btnAboutClose" title="Fechar"><img data-icon="close"></div>
+      </div>
+    </div>
+  </div>
+  <script src="i18n.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

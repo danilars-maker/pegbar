@@ -1,0 +1,276 @@
+/* Pegbar — visual no estilo dos painéis do Photoshop (tema escuro por padrão;
+   as variáveis --uxp-host-* acompanham o tema da interface quando existem). */
+
+:root {
+  --bg: var(--uxp-host-background-color, #323232);
+  --txt: var(--uxp-host-text-color, #d6d6d6);
+  --txt2: var(--uxp-host-text-color-secondary, #9a9a9a);
+  --line: var(--uxp-host-border-color, #262626);
+  --field: #1e1e1e;
+  --fieldLine: #4a4a4a;
+  --hover: rgba(255, 255, 255, 0.08);
+  --press: rgba(255, 255, 255, 0.14);
+  --accent: #378ef0;   /* azul de seleção do Photoshop */
+  --brand: #ff8c3c;    /* laranja Pegbar */
+  --track: #262626;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--txt);
+  font-size: 11px;
+}
+
+#app { display: flex; flex-direction: column; height: 100%; padding: 4px 6px 2px; }
+
+/* ---------- linhas de ferramentas */
+.hdr, .tb, .pane {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 2px 0;
+}
+.hdr { padding-bottom: 4px; border-bottom: 1px solid var(--line); margin-bottom: 3px; }
+.tb { border-bottom: 1px solid var(--line); padding: 3px 0; }
+.grp { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; }
+.grp > *, .hdr > *, .tb > *, .pane > * { margin-right: 3px; }
+.spacer { flex-grow: 1; }
+.vsep { width: 1px; height: 18px; background-color: #4a4a4a; margin: 0 6px; opacity: 0.6; }
+
+.lbl { color: var(--txt2); font-size: 10px; margin-left: 2px; }
+.lbl.strong { color: var(--txt); font-weight: bold; font-size: 11px; }
+.unit { color: var(--txt2); font-size: 10px; margin-left: -1px; margin-right: 5px; }
+.val { min-width: 26px; text-align: center; color: var(--txt); font-size: 11px; }
+.hint { color: #7d7d7d; font-size: 10px; }
+.accentTxt { color: var(--brand); }
+
+/* ---------- botões de ícone (como os do Photoshop) */
+.ib {
+  width: 24px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.ib img { width: 18px; height: 18px; }
+.ib img.sheet { width: 16px; height: 19px; }
+.ib.wide { width: 28px; }
+.ib:hover { background-color: var(--hover); }
+.ib:active { background-color: var(--press); }
+.ib.on { background-color: rgba(55, 142, 240, 0.35); }
+.ib.play { background-color: rgba(255, 140, 60, 0.18); }
+.ib.play:hover { background-color: rgba(255, 140, 60, 0.32); }
+.ib.play.playing { background-color: rgba(230, 70, 70, 0.4); }
+.ib.danger:hover { background-color: rgba(230, 70, 70, 0.35); }
+
+/* botões de texto */
+.tbtn {
+  height: 20px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+  border: 1px solid var(--fieldLine);
+  color: var(--txt);
+  cursor: pointer;
+}
+.tbtn:hover { background-color: var(--hover); }
+.tbtn.accent { background-color: var(--accent); border-color: var(--accent); color: #fff; }
+.tbtn.mkK { border-color: #c94a4a; color: #ff9a9a; font-weight: bold; }
+.tbtn.mkB { border-color: #4a6fc9; color: #9ab7ff; font-weight: bold; }
+.tbtn.mkI { border-color: #777; color: #ccc; font-weight: bold; }
+img.inl { width: 16px; height: 16px; margin-right: 4px; }
+
+/* ---------- campos */
+.field, select, input[type="number"], input[type="text"] {
+  background-color: var(--field);
+  color: var(--txt);
+  border: 1px solid var(--fieldLine);
+  border-radius: 4px;
+  font-size: 11px;
+  height: 20px;
+}
+input.num { width: 38px; }
+input.num.wide { width: 52px; }
+input.text { width: 150px; }
+select { min-width: 150px; }
+select.small { min-width: 96px; }
+input[type="range"] { width: 90px; }
+input.mini { width: 64px; }
+
+.tgl { display: flex; align-items: center; color: var(--txt); font-size: 11px; margin-left: 4px; }
+.tgl input { margin-right: 4px; }
+
+/* ---------- bolinhas de cor */
+.dots { display: flex; flex-direction: row; align-items: center; }
+.swatch {
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  margin-right: 3px;
+  cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+.swatch:hover { border: 1px solid #ffffff; }
+.swatch.active { border: 2px solid #ffffff; }
+.dot { width: 10px; height: 10px; border-radius: 5px; border: 1px solid rgba(0, 0, 0, 0.5); }
+
+/* ---------- abas (controle segmentado) */
+.tabs { display: flex; flex-direction: row; padding: 4px 0 0; }
+.tab {
+  padding: 3px 10px;
+  margin-right: 2px;
+  border-radius: 4px 4px 0 0;
+  color: var(--txt2);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.tab:hover { color: var(--txt); background-color: var(--hover); }
+.tab.on { color: var(--txt); border-bottom: 2px solid var(--brand); }
+.pane { background-color: rgba(0, 0, 0, 0.12); border-radius: 0 4px 4px 4px; padding: 4px 6px; margin-bottom: 3px; }
+
+/* pivô: grade 3x3 */
+.pgrid { display: flex; flex-direction: column; margin: 0 4px; }
+.prow { display: flex; flex-direction: row; }
+.pp { width: 6px; height: 6px; margin: 1px; background-color: #6b6b6b; border-radius: 1px; cursor: pointer; }
+.pp:hover { background-color: var(--brand); }
+.stOn { color: var(--brand); font-weight: bold; }
+
+/* flip */
+.flipRow { flex-wrap: nowrap; }
+
+#flipValue { min-width: 50px; }
+
+/* ---------- timeline */
+#timelineWrap {
+  flex-grow: 1;
+  overflow-x: scroll;
+  overflow-y: auto;
+  background-color: var(--track);
+  border-radius: 4px;
+  padding: 3px;
+  margin-top: 3px;
+}
+#ruler { display: flex; flex-direction: row; flex-wrap: nowrap; }
+#track { display: flex; flex-direction: column; align-items: flex-start; }
+.tick {
+  flex-shrink: 0;
+  height: 14px;
+  font-size: 9px;
+  color: #777;
+  border-left: 1px solid #383838;
+  padding-left: 2px;
+}
+.tick.head { border-left: none; }
+.tick.cur { color: var(--brand); border-left: 1px solid var(--brand); }
+
+.row { display: flex; flex-direction: row; flex-wrap: nowrap; margin-bottom: 3px; }
+.rowHead {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3px 5px;
+  margin-right: 6px;
+  background-color: #2e2e2e;
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+}
+.rowHead:hover { background-color: #383838; }
+.row.active .rowHead { background-color: #3a3024; border-left: 3px solid var(--brand); }
+.rowName { color: var(--txt); font-size: 10px; margin-top: 2px; }
+.rowEdit { color: var(--brand); font-size: 9px; }
+.rowCells { display: flex; flex-direction: row; flex-wrap: nowrap; }
+
+.cell {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #383838;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  overflow: hidden;
+  cursor: pointer;
+  margin-right: 1px;
+}
+.cell:hover { border-color: #5a5a5a; }
+.cell .tag { height: 3px; }
+.cell .thumb { display: flex; align-items: center; justify-content: flex-start; background-color: #ffffff; overflow: hidden; }
+.cell .info { display: flex; flex-direction: row; justify-content: space-between; padding: 1px 3px; font-size: 9px; color: #b5b5b5; }
+.cell .hold { color: #ffcf8a; }
+.cell.selected { background-color: #27466e; border-color: var(--accent); }
+.cell.onionBefore { background-color: #4f2c2c; }
+.cell.onionAfter { background-color: #29452f; }
+.cell.current { border: 2px solid var(--brand); }
+.cell.playing { border: 2px solid #ff5c5c; }
+.cell.cutting { opacity: 0.4; }
+.cell.other { opacity: 0.7; }
+.cell.attime { opacity: 1; border: 1px solid var(--brand); }
+.cell.keyK .tag { background-color: #c94a4a; }
+.cell.keyB .tag { background-color: #4a6fc9; }
+.cell.dragging { opacity: 0.35; }
+.cell.dropBefore { border-left: 3px solid var(--accent); }
+.cell.dropAfter { border-right: 3px solid var(--accent); }
+
+.mk { font-weight: bold; padding: 0 2px; border-radius: 2px; color: #fff; }
+.mk.K { background-color: #c94a4a; }
+.mk.B { background-color: #4a6fc9; }
+.mk.I { background-color: #6f6f6f; }
+
+.empty { padding: 14px; color: #8a8a8a; }
+.empty.small { padding: 6px; font-size: 10px; }
+
+#status { min-height: 15px; margin-top: 2px; color: #9fc4ff; font-size: 10px; }
+#status.error { color: #ff8080; }
+#status.hintTxt { color: #a8a8a8; }
+
+select.lang { min-width: 52px; width: 52px; }
+
+/* etiqueta flutuante com o nome da ferramenta */
+#tip {
+  display: none;
+  position: absolute;
+  max-width: 260px;
+  padding: 4px 8px;
+  background-color: #f2f2f2;
+  color: #1e1e1e;
+  border-radius: 4px;
+  font-size: 11px;
+  z-index: 999;
+  border: 1px solid #000000;
+}
+/* corte */
+.cell { position: relative; }
+.cutLine { position: absolute; top: 0; bottom: 0; width: 3px; background-color: #ff4d4d; }
+#track.cutMode .cell { cursor: crosshair; }
+
+/* barra de flip própria */
+#flipBar { flex-grow: 1; height: 16px; min-width: 100px; position: relative; background-color: #1e1e1e; border: 1px solid #4a4a4a; border-radius: 8px; cursor: ew-resize; margin: 0 6px; }
+#flipKnob { position: absolute; top: 1px; width: 12px; height: 12px; margin-left: -6px; border-radius: 6px; background-color: var(--brand); }
+#ruler { cursor: ew-resize; }
+/* alça para esticar a exposição */
+.grip { position: absolute; top: 0; right: 0; width: 6px; bottom: 0; cursor: ew-resize; }
+.grip:hover { background-color: rgba(55, 142, 240, 0.6); }
+/* diagnóstico */
+#diagBox { display: none; flex-direction: row; align-items: flex-start; padding: 4px; background-color: #1e1e1e; border-radius: 4px; margin-top: 3px; }
+#diagText { white-space: pre; font-size: 10px; color: #cfcfcf; margin-left: 8px; flex-grow: 1; }
+#diagImg { height: 64px; border: 1px solid #555; background-color: #fff; }
+
+/* Sobre */
+#aboutBox { display: none; position: absolute; left: 0; top: 0; right: 0; bottom: 0; align-items: center; justify-content: center; background-color: rgba(0, 0, 0, 0.55); z-index: 900; }
+.aboutCard { display: flex; flex-direction: row; align-items: flex-start; background-color: #2b2b2b; border: 1px solid #4a4a4a; border-radius: 8px; padding: 14px 14px 12px; max-width: 420px; }
+.aboutLogo { width: 56px; height: 56px; margin-right: 14px; }
+.aboutTxt { display: flex; flex-direction: column; flex-grow: 1; }
+.aboutName { font-size: 18px; font-weight: bold; color: #ffffff; }
+.aboutVer { color: var(--brand); margin-bottom: 6px; }
+.aboutBy { font-size: 12px; color: #e6e6e6; }
+.aboutSmall { font-size: 10px; color: #9a9a9a; margin-top: 3px; }
+.aboutLinks { display: flex; flex-direction: row; margin: 8px 0 4px; }
+.aboutLinks .tbtn { margin-right: 6px; }
+.tbtn.coffee { background-color: #ffdd00; border-color: #ffdd00; color: #000000; }
