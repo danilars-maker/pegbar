@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.2 — 2026-11-26
+- The panel scrolls when it is too small, so every tool stays reachable
+- Panel and plugin-list icons follow Adobe's naming (icon_D / icon_L @1x/@2x, plugin @1x/@2x)
+- Plugin ID for the Adobe Marketplace
+
 ## 1.0.1 — 2026-11-24
 - Buy Me a Coffee link: buymeacoffee.com/studiocoffeecat
 

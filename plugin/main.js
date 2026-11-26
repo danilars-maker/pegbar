@@ -3067,7 +3067,7 @@ async function exportSelected() {
 
 // ---------------------------------------------------------------- desfazer / refazer e "Sobre"
 
-const PEGBAR_VERSION = "1.0.0";
+const PEGBAR_VERSION = "1.0.2";
 
 function pluginVersion() {
   try {

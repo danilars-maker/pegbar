@@ -2,7 +2,7 @@
   "manifestVersion": 5,
   "id": "2621069a",
   "name": "Pegbar by Coffee Cat",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "index.html",
   "host": {
     "app": "PS",
@@ -49,7 +49,7 @@
         {
           "width": 23,
           "height": 23,
-          "path": "icons/panel-dark.png",
+          "path": "icons/icon_D.png",
           "scale": [
             1,
             2
@@ -63,7 +63,7 @@
         {
           "width": 23,
           "height": 23,
-          "path": "icons/panel-light.png",
+          "path": "icons/icon_L.png",
           "scale": [
             1,
             2
@@ -232,8 +232,8 @@
   ],
   "icons": [
     {
-      "width": 48,
-      "height": 48,
+      "width": 24,
+      "height": 24,
       "path": "icons/plugin.png",
       "scale": [
         1,
